@@ -10,11 +10,11 @@ const { commune } = Astro.props;
 // Titre dynamique basé sur la population
 function getHeroTitle(commune: any): string {
   if (commune.population > 100000) {
-    return `Plombier d'Urgence 24/7 à ${commune.name}`;
+    return `Votre Plombier Basé à ${commune.name}`;
   } else if (commune.population > 20000) {
-    return `Votre Plombier à ${commune.name}`;
+    return `Plombier Local à ${commune.name}`;
   } else {
-    return `Plombier de Proximité à ${commune.name}`;
+    return `Votre Artisan Plombier à ${commune.name}`;
   }
 }
 
@@ -29,15 +29,15 @@ const postalCode = commune.postalCodes[0] || '';
         {title}
       </h1>
       <p class="text-xl md:text-2xl mb-4 text-primary-100">
-        Intervention rapide en 30 minutes - Service {postalCode}
+        Artisan installé à {commune.name} ({postalCode})
       </p>
       <p class="text-lg mb-8 text-primary-200">
-        Dépannage urgence, fuite d'eau, débouchage, installation. Devis gratuit.
+        Intervention rapide chez vous et dans les communes voisines. Dépannage, fuite d'eau, débouchage, installation.
       </p>
 
       <div class="flex flex-col sm:flex-row gap-4">
-        <Button variant="emergency" size="lg" href="tel:01XXXXXXXX">
-          📞 Appeler Maintenant
+        <Button variant="emergency" size="lg" href="tel:0758239126">
+          📞 07.58.23.91.26
         </Button>
         <Button variant="secondary" size="lg" href="#services" class="bg-white text-primary-600 hover:bg-gray-100">
           Nos Services
@@ -48,7 +48,7 @@ const postalCode = commune.postalCodes[0] || '';
       <div class="mt-8 flex flex-wrap items-center gap-6 text-sm text-primary-200">
         <div class="flex items-center gap-2">
           <span>✓</span>
-          <span>Disponible 24/7</span>
+          <span>Basé à {commune.name}</span>
         </div>
         <div class="flex items-center gap-2">
           <span>✓</span>
@@ -56,7 +56,11 @@ const postalCode = commune.postalCodes[0] || '';
         </div>
         <div class="flex items-center gap-2">
           <span>✓</span>
-          <span>Intervention 30min</span>
+          <span>Horaires 7h30-18h</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span>✓</span>
+          <span>Urgence 24/7</span>
         </div>
       </div>
     </div>

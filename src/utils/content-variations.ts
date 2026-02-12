@@ -27,11 +27,11 @@ interface Commune {
  */
 export function getHeroTitle(commune: Commune): string {
   if (commune.population > 100000) {
-    return `Plombier d'Urgence 24/7 à ${commune.name} - Intervention en 30min`;
+    return `Plombier Basé à ${commune.name} - Artisan Local`;
   } else if (commune.population > 20000) {
-    return `Votre Plombier à ${commune.name} - Dépannage et Installation`;
+    return `Votre Plombier Local à ${commune.name}`;
   } else {
-    return `Plombier de Proximité à ${commune.name} - Service Personnalisé`;
+    return `Artisan Plombier Installé à ${commune.name}`;
   }
 }
 
@@ -40,7 +40,7 @@ export function getHeroTitle(commune: Commune): string {
  */
 export function getMetaDescription(commune: Commune): string {
   const postalCode = commune.postalCodes[0] || '';
-  return `Plombier professionnel à ${commune.name} (${postalCode}, ${commune.department.name}). Intervention rapide 30min. Dépannage urgence 24/7, fuite d'eau, débouchage. Devis gratuit ☎️ 01 XX XX XX XX`;
+  return `Artisan plombier basé à ${commune.name} (${postalCode}). Intervention locale et rapide dans votre commune. Ouvert 7h30-18h, urgence 24/7. Devis gratuit ☎️ 07.58.23.91.26`;
 }
 
 /**
@@ -76,12 +76,11 @@ export function getServiceDescription(commune: Commune, serviceType: string): st
  */
 export function getSocialProof(commune: Commune): string {
   if (commune.population > 50000) {
-    const thousands = Math.floor(commune.population / 1000);
-    return `Plus de ${thousands}k habitants nous font confiance à ${commune.name}`;
+    return `Votre artisan plombier de confiance installé à ${commune.name}`;
   } else if (commune.population > 10000) {
-    return `Service de confiance pour les ${commune.population.toLocaleString('fr-FR')} habitants de ${commune.name}`;
+    return `Plombier local basé à ${commune.name} - Service de proximité`;
   } else {
-    return `Service de proximité pour tous les habitants de ${commune.name}`;
+    return `Artisan plombier de ${commune.name} au service des habitants`;
   }
 }
 
@@ -91,9 +90,9 @@ export function getSocialProof(commune: Commune): string {
 export function getServiceAreaText(commune: Commune): string {
   const landmarks = commune.landmarks.slice(0, 2);
   if (landmarks.length > 0) {
-    return `Nous intervenons rapidement dans tout ${commune.name}, notamment près de ${landmarks.join(', ')}, et dans tous les quartiers environnants.`;
+    return `Installé à ${commune.name}, nous connaissons parfaitement votre commune. Intervention rapide près de ${landmarks.join(', ')} et dans tous les quartiers de ${commune.name}.`;
   }
-  return `Nous intervenons rapidement dans tout ${commune.name} et ses environs.`;
+  return `Basé à ${commune.name}, nous sommes votre plombier de proximité. Intervention rapide dans toute la commune et ses alentours immédiats.`;
 }
 
 /**
@@ -144,28 +143,27 @@ export function getRelevantFAQs(commune: Commune, faqData: any): any[] {
 export function getWhyChooseUsText(commune: Commune): { title: string; items: string[] } {
   const isUrban = commune.type === 'urban';
 
-  const title = isUrban
-    ? `Pourquoi choisir nos services de plomberie à ${commune.name} ?`
-    : `Votre plombier de confiance à ${commune.name}`;
+  const title = `Votre artisan plombier basé à ${commune.name}`;
 
   const commonItems = [
-    'Disponibles 24h/24 et 7j/7 pour vos urgences',
-    'Intervention rapide en 30 minutes',
+    `Installé à ${commune.name} - connaissance parfaite du secteur`,
+    'Horaires : 7h30-18h du lundi au samedi',
+    'Service d\'urgence 24/7 disponible si besoin',
+    'Intervention rapide dans votre commune',
     'Devis gratuit et transparent',
-    'Artisans qualifiés et assurés',
-    'Garantie sur toutes nos interventions'
+    'Artisan qualifié et assuré'
   ];
 
   const urbanItems = [
-    'Spécialistes des immeubles haussmanniens',
-    'Expertise en copropriété',
-    ...commonItems
+    `Basé à ${commune.name}, votre plombier de proximité`,
+    'Spécialiste des immeubles et copropriétés',
+    ...commonItems.slice(1)
   ];
 
   const suburbanItems = [
-    'Experts maisons individuelles',
-    'Connaissance du terrain local',
-    ...commonItems
+    `Installé à ${commune.name}, intervention locale`,
+    'Expert des maisons individuelles et pavillons',
+    ...commonItems.slice(1)
   ];
 
   return {

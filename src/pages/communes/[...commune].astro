@@ -45,9 +45,9 @@ const neighborCommunes = commune.neighbors
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="text-2xl animate-pulse">🚨</span>
-          <span class="font-semibold">Urgence 24/7 à {commune.name}</span>
+          <span class="font-semibold">Urgence 24/7 • Basé à {commune.name}</span>
         </div>
-        <Button variant="emergency" size="sm" href="tel:01XXXXXXXX" class="bg-white text-accent-600 hover:bg-gray-100">
+        <Button variant="emergency" size="sm" href="tel:0758239126" class="bg-white text-accent-600 hover:bg-gray-100">
           📞 Appeler
         </Button>
       </div>
@@ -61,16 +61,19 @@ const neighborCommunes = commune.neighbors
   <section class="py-16 bg-white">
     <div class="container mx-auto">
       <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
-        Zone d'intervention à {commune.name}
+        Votre plombier installé à {commune.name}
       </h2>
       <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-8">
         {serviceAreaText}
+      </p>
+      <p class="text-center text-primary-600 font-semibold mb-8">
+        📍 Basé à {commune.name} • Intervention locale et rapide
       </p>
 
       {neighborCommunes.length > 0 && (
         <div class="mt-8">
           <h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">
-            Nous intervenons également dans les communes voisines :
+            Depuis {commune.name}, nous intervenons aussi à proximité :
           </h3>
           <div class="flex flex-wrap justify-center gap-3">
             {neighborCommunes.map((neighbor: any) => (
@@ -147,14 +150,14 @@ const neighborCommunes = commune.neighbors
   <section class="py-16 bg-primary-600 text-white">
     <div class="container mx-auto text-center">
       <h2 class="text-3xl font-bold mb-4">
-        Besoin d'un plombier à {commune.name} ?
+        Votre artisan plombier basé à {commune.name}
       </h2>
       <p class="text-xl mb-8 text-primary-100">
-        Intervention rapide en 30 minutes - Devis gratuit
+        Ouvert 7h30-18h • Service d'urgence 24/7 disponible • Devis gratuit
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <Button variant="emergency" size="lg" href="tel:01XXXXXXXX">
-          📞 01 XX XX XX XX
+        <Button variant="emergency" size="lg" href="tel:0758239126">
+          📞 07.58.23.91.26
         </Button>
         <Button variant="secondary" size="lg" href="/contact" class="bg-white text-primary-600 hover:bg-gray-100">
           Demander un devis
