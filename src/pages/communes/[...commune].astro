@@ -23,14 +23,18 @@ const title = getPageTitle(commune);
 const description = getMetaDescription(commune);
 const socialProof = getSocialProof(commune);
 const serviceAreaText = getServiceAreaText(commune);
-const testimonials = getTestimonials(commune.id, testimonialsData.testimonials, 3);
-const whyChooseUs = getWhyChooseUsText(commune);
 
 // Récupérer les communes voisines
 const neighborCommunes = commune.neighbors
   .map((neighborId: string) => communesData.communes.find((c: any) => c.id === neighborId))
   .filter(Boolean)
   .slice(0, 8);
+
+// Créer liste des noms pour les témoignages (commune actuelle + voisines)
+const testimonialLocations = [commune.name, ...neighborCommunes.map((n: any) => n.name)];
+const testimonials = getTestimonials(commune.id, testimonialsData.testimonials, testimonialLocations, 3);
+
+const whyChooseUs = getWhyChooseUsText(commune);
 ---
 
 <BaseLayout title={title} description={description} commune={commune}>

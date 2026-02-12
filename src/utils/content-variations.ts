@@ -97,8 +97,9 @@ export function getServiceAreaText(commune: Commune): string {
 
 /**
  * Sélectionne les témoignages à afficher (rotation déterministe)
+ * Les locations sont remplacées par les villes voisines
  */
-export function getTestimonials(communeId: string, testimonials: any[], count: number = 3): any[] {
+export function getTestimonials(communeId: string, testimonials: any[], neighborNames: string[] = [], count: number = 3): any[] {
   // Rotation déterministe basée sur l'ID de la commune
   const seed = parseInt(communeId.slice(-3)) || 0;
   const rotated = [...testimonials];
@@ -109,7 +110,18 @@ export function getTestimonials(communeId: string, testimonials: any[], count: n
     if (item) rotated.push(item);
   }
 
-  return rotated.slice(0, count);
+  // Sélectionner les témoignages
+  const selected = rotated.slice(0, count);
+
+  // Remplacer les locations par les villes voisines
+  if (neighborNames.length > 0) {
+    return selected.map((testimonial, index) => ({
+      ...testimonial,
+      location: neighborNames[index % neighborNames.length]
+    }));
+  }
+
+  return selected;
 }
 
 /**
