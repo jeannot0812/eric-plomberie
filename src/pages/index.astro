@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Services from '../components/sections/Services.astro';
+import Button from '../components/ui/Button.astro';
+import communesData from '../data/communes.json';
+
+const title = 'Plombier Île-de-France - Dépannage 24/7 | Réparation de Plomberie';
+const description = 'Plombier professionnel en Île-de-France. Intervention rapide en 30min dans 1266 communes. Dépannage urgence 24/7, fuite d\'eau, débouchage. Devis gratuit.';
+
+// Communes principales à mettre en avant
+const featuredCommunes = communesData.communes
+  .filter((c: any) => c.population > 50000)
+  .sort((a: any, b: any) => b.population - a.population)
+  .slice(0, 20);
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <!-- Hero Homepage -->
+  <section class="relative bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20 md:py-32">
+    <div class="container mx-auto text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6">
+        Plombier Professionnel en Île-de-France
+      </h1>
+      <p class="text-xl md:text-2xl mb-4 text-primary-100">
+        Intervention rapide dans 1 266 communes
+      </p>
+      <p class="text-lg mb-8 text-primary-200">
+        Dépannage 24/7 • Fuite d'eau • Débouchage • Installation
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button variant="emergency" size="lg" href="tel:01XXXXXXXX">
+          📞 Urgence 24/7
+        </Button>
+        <Button variant="secondary" size="lg" href="#communes" class="bg-white text-primary-600 hover:bg-gray-100">
+          Trouver ma commune
+        </Button>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+          <div class="text-3xl font-bold">24/7</div>
+          <div class="text-sm text-primary-200">Disponibilité</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+          <div class="text-3xl font-bold">30min</div>
+          <div class="text-sm text-primary-200">Intervention</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+          <div class="text-3xl font-bold">1 266</div>
+          <div class="text-sm text-primary-200">Communes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <Services />
+
+  <!-- Communes Principales -->
+  <section id="communes" class="py-16 bg-white">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4 text-center">
+        Communes Principales
+      </h2>
+      <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+        Intervention dans toutes les communes d'Île-de-France. Cliquez sur votre ville.
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+        {featuredCommunes.map((commune: any) => (
+          <a
+            href={`/communes/${commune.slug}`}
+            class="px-4 py-3 bg-gray-50 hover:bg-primary-50 border border-gray-200 hover:border-primary-300 rounded-lg text-gray-700 hover:text-primary-600 transition text-center"
+          >
+            <div class="font-medium">{commune.name}</div>
+            <div class="text-xs text-gray-500">{commune.postalCodes[0]}</div>
+          </a>
+        ))}
+      </div>
+
+      <div class="mt-8 text-center">
+        <p class="text-gray-600">
+          + 1 246 autres communes en Île-de-France
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final -->
+  <section class="py-16 bg-primary-600 text-white">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">
+        Une Urgence ? Appelez-nous Maintenant
+      </h2>
+      <p class="text-xl mb-8 text-primary-100">
+        Disponibles 24h/24, 7j/7 pour toutes vos urgences de plomberie
+      </p>
+      <Button variant="emergency" size="lg" href="tel:01XXXXXXXX">
+        📞 01 XX XX XX XX
+      </Button>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

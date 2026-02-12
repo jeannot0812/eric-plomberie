@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import Hero from '../../components/sections/Hero.astro';
+import Services from '../../components/sections/Services.astro';
+import Button from '../../components/ui/Button.astro';
+
+import communesData from '../../data/communes.json';
+import testimonialsData from '../../data/testimonials.json';
+import { getPageTitle, getMetaDescription, getSocialProof, getServiceAreaText, getTestimonials, getWhyChooseUsText } from '../../utils/content-variations';
+
+// Génère toutes les routes statiques
+export async function getStaticPaths() {
+  return communesData.communes.map((commune) => ({
+    params: { commune: commune.slug },
+    props: { commune }
+  }));
+}
+
+const { commune } = Astro.props;
+const title = getPageTitle(commune);
+const description = getMetaDescription(commune);
+const socialProof = getSocialProof(commune);
+const serviceAreaText = getServiceAreaText(commune);
+const testimonials = getTestimonials(commune.id, testimonialsData.testimonials, 3);
+const whyChooseUs = getWhyChooseUsText(commune);
+
+// Récupérer les communes voisines
+const neighborCommunes = commune.neighbors
+  .map((neighborId: string) => communesData.communes.find((c: any) => c.id === neighborId))
+  .filter(Boolean)
+  .slice(0, 8);
+---
+
+<BaseLayout title={title} description={description} commune={commune}>
+  <Header />
+
+  <!-- Hero Section -->
+  <Hero commune={commune} />
+
+  <!-- Banner Urgence Sticky -->
+  <div class="sticky top-16 z-40 bg-accent-500 text-white py-3 shadow-lg">
+    <div class="container mx-auto">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl animate-pulse">🚨</span>
+          <span class="font-semibold">Urgence 24/7 à {commune.name}</span>
+        </div>
+        <Button variant="emergency" size="sm" href="tel:01XXXXXXXX" class="bg-white text-accent-600 hover:bg-gray-100">
+          📞 Appeler
+        </Button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services Section -->
+  <Services />
+
+  <!-- Service Area Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
+        Zone d'intervention à {commune.name}
+      </h2>
+      <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-8">
+        {serviceAreaText}
+      </p>
+
+      {neighborCommunes.length > 0 && (
+        <div class="mt-8">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">
+            Nous intervenons également dans les communes voisines :
+          </h3>
+          <div class="flex flex-wrap justify-center gap-3">
+            {neighborCommunes.map((neighbor: any) => (
+              <a
+                href={`/communes/${neighbor.slug}`}
+                class="px-4 py-2 bg-gray-100 hover:bg-primary-100 rounded-lg text-gray-700 hover:text-primary-600 transition"
+              >
+                {neighbor.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="mt-8 text-center">
+        <p class="text-sm text-gray-500">
+          📍 {commune.department.name} ({commune.department.code}) - Code postal : {commune.postalCodes.join(', ')}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">
+        {whyChooseUs.title}
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        {whyChooseUs.items.map((item: string) => (
+          <div class="flex items-start gap-3">
+            <div class="flex-shrink-0 w-6 h-6 bg-success-100 rounded-full flex items-center justify-center">
+              <span class="text-success-600 text-sm">✓</span>
+            </div>
+            <span class="text-gray-700">{item}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-8 text-center">
+        <p class="text-lg text-gray-600">
+          {socialProof}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">
+        Avis de nos clients
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {testimonials.map((testimonial: any) => (
+          <div class="bg-gray-50 rounded-xl p-6">
+            <div class="flex items-center gap-1 mb-3">
+              {[...Array(testimonial.rating)].map(() => (
+                <span class="text-yellow-400">⭐</span>
+              ))}
+            </div>
+            <p class="text-gray-700 mb-4">"{testimonial.text}"</p>
+            <div class="text-sm">
+              <p class="font-semibold text-gray-900">{testimonial.name}</p>
+              <p class="text-gray-500">{testimonial.location}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA Section -->
+  <section class="py-16 bg-primary-600 text-white">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">
+        Besoin d'un plombier à {commune.name} ?
+      </h2>
+      <p class="text-xl mb-8 text-primary-100">
+        Intervention rapide en 30 minutes - Devis gratuit
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button variant="emergency" size="lg" href="tel:01XXXXXXXX">
+          📞 01 XX XX XX XX
+        </Button>
+        <Button variant="secondary" size="lg" href="/contact" class="bg-white text-primary-600 hover:bg-gray-100">
+          Demander un devis
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

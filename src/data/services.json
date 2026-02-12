@@ -1,0 +1,82 @@
+{
+  "services": [
+    {
+      "id": "depannage-urgence",
+      "title": "Dépannage Urgence 24/7",
+      "icon": "🚨",
+      "description": "Intervention rapide en 30 minutes pour toutes vos urgences de plomberie",
+      "slug": "depannage-urgence",
+      "features": [
+        "Disponible 24h/24, 7j/7",
+        "Intervention en 30 minutes",
+        "Devis gratuit",
+        "Paiement après intervention"
+      ]
+    },
+    {
+      "id": "fuite-eau",
+      "title": "Détection et Réparation de Fuites",
+      "icon": "💧",
+      "description": "Recherche et réparation de fuites d'eau avec caméra thermique",
+      "slug": "fuite-eau",
+      "features": [
+        "Détection précise par caméra",
+        "Réparation sans casse",
+        "Expertise tous types de canalisations",
+        "Garantie intervention"
+      ]
+    },
+    {
+      "id": "debouchage",
+      "title": "Débouchage Canalisations",
+      "icon": "🔧",
+      "description": "Débouchage professionnel de WC, éviers, douches et canalisations",
+      "slug": "debouchage",
+      "features": [
+        "Furet électrique professionnel",
+        "Hydrocurage haute pression",
+        "Inspection vidéo",
+        "Résultats immédiats"
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation Sanitaire",
+      "icon": "🚿",
+      "description": "Pose de sanitaires, robinetterie et équipements de salle de bain",
+      "slug": "installation",
+      "features": [
+        "Installation WC, lavabo, douche",
+        "Pose de robinetterie",
+        "Installation chauffe-eau",
+        "Mise aux normes"
+      ]
+    },
+    {
+      "id": "renovation",
+      "title": "Rénovation Salle de Bain",
+      "icon": "🛁",
+      "description": "Rénovation complète de salle de bain et cuisine",
+      "slug": "renovation",
+      "features": [
+        "Étude et devis gratuit",
+        "Travaux clé en main",
+        "Choix des matériaux",
+        "Finitions soignées"
+      ]
+    },
+    {
+      "id": "chaudiere",
+      "title": "Chauffage et Chaudière",
+      "icon": "🔥",
+      "description": "Entretien, réparation et installation de chaudières",
+      "slug": "chaudiere",
+      "features": [
+        "Entretien annuel obligatoire",
+        "Réparation toutes marques",
+        "Installation neuve",
+        "Contrat maintenance"
+      ]
+    }
+  ]
+}

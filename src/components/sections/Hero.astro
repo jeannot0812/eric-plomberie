@@ -1,0 +1,64 @@
+---
+import Button from '../ui/Button.astro';
+
+interface Props {
+  commune: any;
+}
+
+const { commune } = Astro.props;
+
+// Titre dynamique basé sur la population
+function getHeroTitle(commune: any): string {
+  if (commune.population > 100000) {
+    return `Plombier d'Urgence 24/7 à ${commune.name}`;
+  } else if (commune.population > 20000) {
+    return `Votre Plombier à ${commune.name}`;
+  } else {
+    return `Plombier de Proximité à ${commune.name}`;
+  }
+}
+
+const title = getHeroTitle(commune);
+const postalCode = commune.postalCodes[0] || '';
+---
+
+<section class="relative bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20 md:py-28">
+  <div class="container mx-auto">
+    <div class="max-w-3xl">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+        {title}
+      </h1>
+      <p class="text-xl md:text-2xl mb-4 text-primary-100">
+        Intervention rapide en 30 minutes - Service {postalCode}
+      </p>
+      <p class="text-lg mb-8 text-primary-200">
+        Dépannage urgence, fuite d'eau, débouchage, installation. Devis gratuit.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4">
+        <Button variant="emergency" size="lg" href="tel:01XXXXXXXX">
+          📞 Appeler Maintenant
+        </Button>
+        <Button variant="secondary" size="lg" href="#services" class="bg-white text-primary-600 hover:bg-gray-100">
+          Nos Services
+        </Button>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="mt-8 flex flex-wrap items-center gap-6 text-sm text-primary-200">
+        <div class="flex items-center gap-2">
+          <span>✓</span>
+          <span>Disponible 24/7</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span>✓</span>
+          <span>Devis gratuit</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span>✓</span>
+          <span>Intervention 30min</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

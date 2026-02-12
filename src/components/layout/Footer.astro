@@ -1,0 +1,57 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-gray-900 text-white py-12">
+  <div class="container mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- À propos -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Réparation de Plomberie</h3>
+        <p class="text-gray-400 text-sm">
+          Service de plomberie professionnel disponible 24/7 dans toute l'Île-de-France.
+        </p>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Services</h3>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href="/services/depannage-urgence" class="hover:text-white">Dépannage Urgence</a></li>
+          <li><a href="/services/fuite-eau" class="hover:text-white">Fuite d'eau</a></li>
+          <li><a href="/services/debouchage" class="hover:text-white">Débouchage</a></li>
+          <li><a href="/services/installation" class="hover:text-white">Installation</a></li>
+        </ul>
+      </div>
+
+      <!-- Départements -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Départements</h3>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href="/departements/paris" class="hover:text-white">Paris (75)</a></li>
+          <li><a href="/departements/hauts-de-seine" class="hover:text-white">Hauts-de-Seine (92)</a></li>
+          <li><a href="/departements/seine-saint-denis" class="hover:text-white">Seine-Saint-Denis (93)</a></li>
+          <li><a href="/departements/val-de-marne" class="hover:text-white">Val-de-Marne (94)</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Contact</h3>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li>📞 01 XX XX XX XX</li>
+          <li>📧 contact@reparation-plomberie.fr</li>
+          <li>⏰ Disponible 24h/24</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+      <p>&copy; {currentYear} Réparation de Plomberie. Tous droits réservés.</p>
+      <div class="mt-2 space-x-4">
+        <a href="/mentions-legales" class="hover:text-white">Mentions légales</a>
+        <a href="/contact" class="hover:text-white">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>

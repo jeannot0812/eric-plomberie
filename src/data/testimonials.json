@@ -1,0 +1,164 @@
+{
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Marie D.",
+      "location": "Paris 15ème",
+      "rating": 5,
+      "text": "Intervention très rapide pour une fuite d'eau dans ma cuisine. Plombier professionnel et prix honnête. Je recommande !",
+      "date": "2025-01-15"
+    },
+    {
+      "id": 2,
+      "name": "Jean-Pierre L.",
+      "location": "Versailles",
+      "rating": 5,
+      "text": "Excellent service pour le débouchage de mes canalisations. Travail propre et efficace. Merci !",
+      "date": "2025-01-10"
+    },
+    {
+      "id": 3,
+      "name": "Sophie M.",
+      "location": "Nanterre",
+      "rating": 5,
+      "text": "Rénovation complète de ma salle de bain. Résultat magnifique et dans les délais. Très satisfaite.",
+      "date": "2025-01-05"
+    },
+    {
+      "id": 4,
+      "name": "Thomas B.",
+      "location": "Saint-Denis",
+      "rating": 5,
+      "text": "Plombier très réactif, arrivé en 20 minutes pour une urgence. Prix transparent et travail de qualité.",
+      "date": "2024-12-28"
+    },
+    {
+      "id": 5,
+      "name": "Isabelle R.",
+      "location": "Créteil",
+      "rating": 5,
+      "text": "Installation de ma nouvelle chaudière parfaitement réalisée. Conseils professionnels et garantie.",
+      "date": "2024-12-20"
+    },
+    {
+      "id": 6,
+      "name": "Patrick V.",
+      "location": "Argenteuil",
+      "rating": 5,
+      "text": "Recherche de fuite avec caméra thermique, réparation sans casse du mur. Très pro !",
+      "date": "2024-12-15"
+    },
+    {
+      "id": 7,
+      "name": "Nathalie K.",
+      "location": "Montreuil",
+      "rating": 5,
+      "text": "Service impeccable pour le remplacement de ma robinetterie. Travail soigné et propre.",
+      "date": "2024-12-10"
+    },
+    {
+      "id": 8,
+      "name": "Laurent F.",
+      "location": "Boulogne-Billancourt",
+      "rating": 5,
+      "text": "Intervention d'urgence un dimanche soir, WC bouché. Très réactif et efficace. Merci !",
+      "date": "2024-12-05"
+    },
+    {
+      "id": 9,
+      "name": "Caroline H.",
+      "location": "Cergy",
+      "rating": 5,
+      "text": "Excellent rapport qualité/prix pour l'entretien de ma chaudière. Plombier ponctuel et compétent.",
+      "date": "2024-11-28"
+    },
+    {
+      "id": 10,
+      "name": "Alexandre D.",
+      "location": "Évry",
+      "rating": 5,
+      "text": "Fuite réparée rapidement et proprement. Devis respecté et conseils pertinents. Je recommande.",
+      "date": "2024-11-20"
+    },
+    {
+      "id": 11,
+      "name": "Valérie P.",
+      "location": "Meaux",
+      "rating": 5,
+      "text": "Installation d'un chauffe-eau électrique. Travail parfait et explications claires.",
+      "date": "2024-11-15"
+    },
+    {
+      "id": 12,
+      "name": "Michel G.",
+      "location": "Pontoise",
+      "rating": 5,
+      "text": "Débouchage de gouttière et canalisation. Service rapide et prix correct.",
+      "date": "2024-11-10"
+    },
+    {
+      "id": 13,
+      "name": "Sandrine L.",
+      "location": "Rambouillet",
+      "rating": 5,
+      "text": "Rénovation de salle de bain clé en main. Très beau résultat, je suis ravie !",
+      "date": "2024-11-05"
+    },
+    {
+      "id": 14,
+      "name": "Christophe M.",
+      "location": "Melun",
+      "rating": 5,
+      "text": "Intervention rapide pour fuite sous évier. Plombier sympathique et professionnel.",
+      "date": "2024-10-28"
+    },
+    {
+      "id": 15,
+      "name": "Émilie T.",
+      "location": "Massy",
+      "rating": 5,
+      "text": "Changement de robinet et vidange. Travail impeccable et rapide. Merci beaucoup !",
+      "date": "2024-10-20"
+    },
+    {
+      "id": 16,
+      "name": "François B.",
+      "location": "Sarcelles",
+      "rating": 5,
+      "text": "Dépannage d'urgence en pleine nuit. Plombier à l'écoute et efficace. Prix honnête.",
+      "date": "2024-10-15"
+    },
+    {
+      "id": 17,
+      "name": "Martine C.",
+      "location": "Antony",
+      "rating": 5,
+      "text": "Pose d'un nouveau WC suspendu. Installation parfaite et conseil sur le choix du modèle.",
+      "date": "2024-10-10"
+    },
+    {
+      "id": 18,
+      "name": "Olivier S.",
+      "location": "Colombes",
+      "rating": 5,
+      "text": "Recherche et réparation de fuite difficile à localiser. Très compétent !",
+      "date": "2024-10-05"
+    },
+    {
+      "id": 19,
+      "name": "Céline W.",
+      "location": "Rueil-Malmaison",
+      "rating": 5,
+      "text": "Remplacement complet de la tuyauterie. Travail de qualité et chantier propre.",
+      "date": "2024-09-28"
+    },
+    {
+      "id": 20,
+      "name": "Daniel R.",
+      "location": "Vitry-sur-Seine",
+      "rating": 5,
+      "text": "Entretien chaudière annuel. Service rapide et professionnel. Je reprends RDV l'année prochaine.",
+      "date": "2024-09-20"
+    }
+  ]
+}

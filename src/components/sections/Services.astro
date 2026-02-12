@@ -1,0 +1,60 @@
+---
+import servicesData from '../../data/services.json';
+
+const services = servicesData.services.slice(0, 6); // Top 6 services
+---
+
+<section id="services" class="py-16 md:py-24 bg-gray-50">
+  <div class="container mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        Nos Services de Plomberie
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Intervention professionnelle pour tous vos besoins en plomberie
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      {services.map(service => (
+        <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow p-6">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0">
+              <div class="w-14 h-14 bg-primary-100 rounded-lg flex items-center justify-center text-3xl">
+                {service.icon}
+              </div>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                {service.title}
+              </h3>
+              <p class="text-gray-600 mb-4 text-sm">
+                {service.description}
+              </p>
+              <ul class="space-y-1">
+                {service.features.slice(0, 3).map(feature => (
+                  <li class="text-sm text-gray-500 flex items-center gap-2">
+                    <span class="text-success-500">✓</span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center mt-12">
+      <a
+        href="/services"
+        class="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold"
+      >
+        Voir tous nos services
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  commune?: any;
+}
+
+const { title, description, commune } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- SEO -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:locale" content="fr_FR" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+
+  <!-- Geo Tags (si commune) -->
+  {commune && (
+    <>
+      <meta name="geo.region" content={`FR-${commune.department.code}`} />
+      <meta name="geo.placename" content={commune.name} />
+      <meta name="geo.position" content={`${commune.coordinates.lat};${commune.coordinates.lng}`} />
+      <meta name="ICBM" content={`${commune.coordinates.lat}, ${commune.coordinates.lng}`} />
+    </>
+  )}
+</head>
+<body class="antialiased">
+  <slot />
+</body>
+</html>

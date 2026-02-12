@@ -1,0 +1,86 @@
+{
+  "faq": {
+    "general": [
+      {
+        "question": "Intervenez-vous en urgence 24h/24 ?",
+        "answer": "Oui, nous sommes disponibles 24h/24 et 7j/7 pour toutes vos urgences de plomberie. Notre temps d'intervention moyen est de 30 minutes."
+      },
+      {
+        "question": "Quels sont vos tarifs ?",
+        "answer": "Nous proposons des devis gratuits et transparents. Les tarifs varient selon la nature de l'intervention. Nous vous informons toujours du coût avant de commencer les travaux."
+      },
+      {
+        "question": "Êtes-vous assurés ?",
+        "answer": "Oui, nous disposons de toutes les assurances professionnelles obligatoires (responsabilité civile professionnelle et décennale)."
+      },
+      {
+        "question": "Puis-je obtenir un devis gratuit ?",
+        "answer": "Absolument ! Nous proposons des devis gratuits et sans engagement pour tous types de travaux de plomberie."
+      },
+      {
+        "question": "Quels moyens de paiement acceptez-vous ?",
+        "answer": "Nous acceptons les paiements par carte bancaire, chèque, virement et espèces. Le paiement se fait après l'intervention."
+      }
+    ],
+    "urban": [
+      {
+        "question": "Pouvez-vous intervenir dans les immeubles anciens ?",
+        "answer": "Oui, nous sommes spécialisés dans les immeubles anciens et haussmanniens. Nous connaissons bien les spécificités de la plomberie ancienne."
+      },
+      {
+        "question": "Que faire en cas de fuite chez un voisin ?",
+        "answer": "Coupez l'eau au robinet d'arrêt général, prévenez le voisin et le syndic, puis appelez-nous en urgence. Nous gérons ces situations fréquentes en immeuble."
+      },
+      {
+        "question": "Intervenez-vous dans les parties communes ?",
+        "answer": "Oui, avec l'accord du syndic ou du gestionnaire de l'immeuble. Nous pouvons intervenir sur les colonnes montantes et parties communes."
+      }
+    ],
+    "suburban": [
+      {
+        "question": "Faites-vous l'assainissement individuel ?",
+        "answer": "Oui, nous intervenons sur les fosses septiques, micro-stations et tous systèmes d'assainissement autonome."
+      },
+      {
+        "question": "Pouvez-vous installer un récupérateur d'eau de pluie ?",
+        "answer": "Oui, nous installons et raccordons les systèmes de récupération d'eau de pluie pour l'arrosage ou les WC."
+      },
+      {
+        "question": "Réparez-vous les pompes de puits ?",
+        "answer": "Oui, nous assurons la maintenance, réparation et remplacement des pompes de puits et de relevage."
+      }
+    ],
+    "services": {
+      "fuite-eau": [
+        {
+          "question": "Comment détecter une fuite cachée ?",
+          "answer": "Nous utilisons une caméra thermique et des détecteurs acoustiques professionnels pour localiser précisément les fuites sans casse inutile."
+        },
+        {
+          "question": "Une fuite d'eau est-elle toujours visible ?",
+          "answer": "Non, de nombreuses fuites sont cachées dans les murs, sous les sols ou dans les canalisations enterrées. C'est pourquoi nous utilisons du matériel de détection professionnel."
+        }
+      ],
+      "debouchage": [
+        {
+          "question": "Quelles sont les causes de canalisations bouchées ?",
+          "answer": "Les causes principales sont : accumulation de cheveux, graisses, savon, objets, papier ou racines d'arbres dans les canalisations extérieures."
+        },
+        {
+          "question": "Le débouchage est-il garanti ?",
+          "answer": "Oui, nous garantissons l'efficacité de nos débouchages. En cas de récidive sous 7 jours, nous revenons gratuitement."
+        }
+      ],
+      "installation": [
+        {
+          "question": "Combien de temps faut-il pour installer un WC ?",
+          "answer": "L'installation d'un WC standard prend environ 2 à 3 heures. Pour un WC suspendu avec bâti support, comptez une demi-journée."
+        },
+        {
+          "question": "Fournissez-vous les équipements ?",
+          "answer": "Nous pouvons fournir les équipements ou poser ceux que vous avez achetés. Nous vous conseillons sur les meilleurs choix selon votre budget."
+        }
+      ]
+    }
+  }
+}
