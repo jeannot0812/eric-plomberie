@@ -1,0 +1,18 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background bleu -->
+  <rect width="64" height="64" rx="12" fill="url(#bgGradient)"/>
+
+  <!-- Lettre E stylisée (blanc) -->
+  <path d="M20 18 H44 V24 H28 V28 H42 V34 H28 V40 H44 V46 H20 Z" fill="white"/>
+
+  <!-- Petit accent vert (badge certifié) -->
+  <circle cx="52" cy="12" r="8" fill="#10B981"/>
+  <path d="M48 12 L50.5 14.5 L56 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+</svg>

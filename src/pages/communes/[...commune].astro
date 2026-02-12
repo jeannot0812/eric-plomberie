@@ -5,12 +5,10 @@ import Footer from '../../components/layout/Footer.astro';
 import Hero from '../../components/sections/Hero.astro';
 import Services from '../../components/sections/Services.astro';
 import Team from '../../components/sections/Team.astro';
-import BlogSEO from '../../components/sections/BlogSEO.astro';
-import Button from '../../components/ui/Button.astro';
 
 import communesData from '../../data/communes.json';
 import testimonialsData from '../../data/testimonials.json';
-import { getPageTitle, getMetaDescription, getSocialProof, getServiceAreaText, getTestimonials, getWhyChooseUsText } from '../../utils/content-variations';
+import { getPageTitle, getMetaDescription, getTestimonials } from '../../utils/content-variations';
 
 // Génère toutes les routes statiques
 export async function getStaticPaths() {
@@ -23,8 +21,6 @@ export async function getStaticPaths() {
 const { commune } = Astro.props;
 const title = getPageTitle(commune);
 const description = getMetaDescription(commune);
-const socialProof = getSocialProof(commune);
-const serviceAreaText = getServiceAreaText(commune);
 
 // Récupérer les communes voisines
 const neighborCommunes = commune.neighbors
@@ -32,354 +28,44 @@ const neighborCommunes = commune.neighbors
   .filter(Boolean)
   .slice(0, 8);
 
-// Créer liste des noms pour les témoignages (commune actuelle + voisines)
+// Témoignages
 const testimonialLocations = [commune.name, ...neighborCommunes.map((n: any) => n.name)];
 const testimonials = getTestimonials(commune.id, testimonialsData.testimonials, testimonialLocations, 3);
-
-const whyChooseUs = getWhyChooseUsText(commune);
 ---
 
 <BaseLayout title={title} description={description} commune={commune}>
   <Header />
 
-  <!-- Hero Section -->
+  <!-- Hero Section (Bloc photo principal) -->
   <Hero commune={commune} />
-
-  <!-- Trust Badges Section -->
-  <section class="py-12 bg-white border-b-2 border-gray-300">
-    <div class="container mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Badge 1: Assurance Décennale -->
-        <div class="flex flex-col items-center text-center p-6 bg-gray-50 border-2 border-gray-300 hover:border-primary-600 transition-colors rounded-xl">
-          <div class="text-4xl font-black text-primary-600 mb-3 tracking-tighter">10 ANS</div>
-          <div class="font-black text-gray-900 text-xs uppercase tracking-widest mb-1">Assurance Décennale</div>
-          <div class="text-xs text-gray-600 font-medium">Travaux garantis</div>
-        </div>
-
-        <!-- Badge 2: Certifié RGE -->
-        <div class="flex flex-col items-center text-center p-6 bg-gray-50 border-2 border-gray-300 hover:border-success-600 transition-colors rounded-xl">
-          <div class="text-4xl font-black text-success-600 mb-3 tracking-tighter">RGE</div>
-          <div class="font-black text-gray-900 text-xs uppercase tracking-widest mb-1">Certifié Qualibat</div>
-          <div class="text-xs text-gray-600 font-medium">Qualité reconnue</div>
-        </div>
-
-        <!-- Badge 3: Dispo 24/7 -->
-        <div class="flex flex-col items-center text-center p-6 bg-gray-50 border-2 border-gray-300 hover:border-accent-600 transition-colors rounded-xl">
-          <div class="text-4xl font-black text-accent-600 mb-3 tracking-tighter">24/7</div>
-          <div class="font-black text-gray-900 text-xs uppercase tracking-widest mb-1">Service Urgence</div>
-          <div class="text-xs text-gray-600 font-medium">Intervention rapide</div>
-        </div>
-
-        <!-- Badge 4: Satisfait ou remboursé -->
-        <div class="flex flex-col items-center text-center p-6 bg-gray-50 border-2 border-gray-300 hover:border-primary-600 transition-colors rounded-xl">
-          <div class="text-4xl font-black text-primary-600 mb-3 tracking-tighter">100%</div>
-          <div class="font-black text-gray-900 text-xs uppercase tracking-widest mb-1">Satisfaction Client</div>
-          <div class="text-xs text-gray-600 font-medium">Garantie qualité</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Assurances Agréées -->
-  <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
-    <div class="container mx-auto">
-      <div class="text-center mb-16">
-        <div class="inline-block px-6 py-2 bg-primary-600 text-white font-black uppercase tracking-widest text-xs mb-4 rounded-md">
-          Partenaire Officiel
-        </div>
-        <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-          Agréé Toutes Assurances
-        </h2>
-        <p class="text-gray-600 font-medium text-lg max-w-2xl mx-auto">
-          Prise en charge directe par votre assurance • Devis et factures conformes
-        </p>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-6 max-w-6xl mx-auto mb-12">
-        <div class="bg-white p-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-primary-600 rounded-xl">
-          <img src="/images/assurances/axa.svg" alt="AXA" class="w-full h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
-        </div>
-
-        <div class="bg-white p-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-primary-600 rounded-xl">
-          <img src="/images/assurances/allianz.svg" alt="Allianz" class="w-full h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
-        </div>
-
-        <div class="bg-white p-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-primary-600 rounded-xl">
-          <img src="/images/assurances/groupama.svg" alt="Groupama" class="w-full h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
-        </div>
-
-        <div class="bg-white p-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-primary-600 rounded-xl">
-          <img src="/images/assurances/maaf.svg" alt="MAAF" class="w-full h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
-        </div>
-
-        <div class="bg-white p-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-primary-600 rounded-xl">
-          <img src="/images/assurances/maif.svg" alt="MAIF" class="w-full h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
-        </div>
-
-        <div class="bg-white p-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-primary-600 rounded-xl">
-          <img src="/images/assurances/matmut.svg" alt="Matmut" class="w-full h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
-        </div>
-
-        <div class="bg-white p-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-primary-600 rounded-xl">
-          <img src="/images/assurances/gmf.svg" alt="GMF" class="w-full h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
-        </div>
-
-        <div class="bg-white p-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-primary-600 rounded-xl">
-          <img src="/images/assurances/mma.svg" alt="MMA" class="w-full h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
-        </div>
-
-        <div class="bg-white p-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-primary-600 rounded-xl">
-          <img src="/images/assurances/generali.svg" alt="Generali" class="w-full h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
-        </div>
-
-        <div class="bg-white p-6 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-primary-600 rounded-xl">
-          <img src="/images/assurances/direct-assurance.svg" alt="Direct Assurance" class="w-full h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
-        </div>
-      </div>
-
-      <div class="text-center">
-        <div class="inline-flex items-center gap-4 px-10 py-5 bg-white shadow-xl border-l-4 border-success-500 rounded-lg">
-          <svg class="w-8 h-8 text-success-500" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-          </svg>
-          <span class="text-gray-900 font-black text-lg">Toutes Assurances Acceptées</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Banner Urgence Sticky -->
-  <div class="sticky top-16 z-40 bg-accent-600 text-white py-3 border-b-2 border-accent-700">
-    <div class="container mx-auto">
-      <div class="flex items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <span class="inline-block w-2 h-2 bg-white rounded-full"></span>
-          <span class="font-semibold text-sm md:text-base uppercase tracking-wide">Service Urgence 24/7 • {commune.name}</span>
-        </div>
-        <a
-          href="tel:0758239126"
-          class="inline-flex items-center gap-2 bg-white text-accent-700 px-5 py-2 font-semibold hover:bg-gray-50 transition-colors whitespace-nowrap text-sm md:text-base border border-accent-200 rounded-lg"
-        >
-          <span class="hidden sm:inline">07.58.23.91.26</span>
-          <span class="sm:hidden">Appeler</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Why Choose Us Section -->
-  <section class="py-20 bg-white border-y border-gray-200">
-    <div class="container mx-auto">
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center uppercase tracking-tight">
-        {whyChooseUs.title}
-      </h2>
-      <div class="h-1 w-24 bg-primary-600 mx-auto mb-12"></div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
-        {whyChooseUs.items.map((item: string) => (
-          <div class="flex items-start gap-4 p-6 bg-gray-50 border-l-4 border-primary-600">
-            <div class="flex-shrink-0 w-2 h-2 bg-primary-600 mt-2"></div>
-            <span class="text-gray-800 font-medium leading-relaxed">{item}</span>
-          </div>
-        ))}
-      </div>
-
-      <div class="text-center bg-gray-50 py-8 border-t-2 border-primary-600">
-        <p class="text-xl font-semibold text-gray-900">
-          {socialProof}
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Défilement des marques -->
-  <section class="py-10 bg-gray-50 border-y border-gray-200">
-    <div class="container mx-auto">
-      <div class="overflow-hidden py-4">
-        <div class="flex gap-4 animate-scroll">
-          <!-- Marques de chauffage -->
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VIESSMANN</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">DE DIETRICH</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">SAUNIER DUVAL</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ATLANTIC</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">THERMOR</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VAILLANT</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ELM LEBLANC</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">FRISQUET</span>
-          </div>
-          <!-- Marques de plomberie -->
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">GEBERIT</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">GROHE</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">JACOB DELAFON</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">PORCHER</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VITRA</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">SFA</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">WATERMATIC</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ALLIA</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">DELABIE</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">POLAR</span>
-          </div>
-          <!-- Duplication pour le scroll infini -->
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VIESSMANN</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">DE DIETRICH</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">SAUNIER DUVAL</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ATLANTIC</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">THERMOR</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VAILLANT</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ELM LEBLANC</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">FRISQUET</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">GEBERIT</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">GROHE</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">JACOB DELAFON</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">PORCHER</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VITRA</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">SFA</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">WATERMATIC</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ALLIA</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">DELABIE</span>
-          </div>
-          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
-            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">POLAR</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Services Section -->
   <Services />
 
-  <!-- Service Area Section -->
-  <section class="py-20 bg-white border-y border-gray-200">
-    <div class="container mx-auto">
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center uppercase tracking-tight">
-        Votre plombier installé à {commune.name}
-      </h2>
-      <div class="h-1 w-24 bg-primary-600 mx-auto mb-8"></div>
-      <p class="text-lg text-gray-800 text-center max-w-4xl mx-auto mb-10 font-medium leading-relaxed">
-        {serviceAreaText}
-      </p>
-      <div class="text-center mb-8">
-        <div class="inline-flex items-center gap-3 px-6 py-3 bg-primary-50 border-l-4 border-primary-600">
-          <span class="text-primary-900 font-bold uppercase tracking-wide text-sm">Basé à {commune.name}</span>
-          <span class="text-gray-400">|</span>
-          <span class="text-gray-700 font-medium text-sm">Intervention locale et rapide</span>
-        </div>
+  <!-- Testimonials Section (Témoignages) -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase tracking-tight mb-4">
+          Témoignages Clients
+        </h2>
+        <div class="h-1 w-24 bg-primary-600 mx-auto"></div>
       </div>
 
-      {neighborCommunes.length > 0 && (
-        <div class="mt-12 bg-gray-50 py-8 border-t border-b border-gray-200">
-          <h3 class="text-xl font-bold text-gray-900 mb-6 text-center uppercase tracking-wide">
-            Zones d'intervention à proximité de {commune.name}
-          </h3>
-          <div class="flex flex-wrap justify-center gap-2">
-            {neighborCommunes.map((neighbor: any) => (
-              <span class="px-5 py-2 bg-white border-2 border-gray-300 text-gray-800 font-semibold text-sm uppercase tracking-wider hover:border-primary-600 hover:text-primary-600 transition-colors">
-                {neighbor.name}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div class="mt-8 text-center">
-        <div class="inline-block px-6 py-3 bg-white border border-gray-300">
-          <p class="text-sm text-gray-700 font-medium">
-            <span class="text-gray-900 font-bold">{commune.department.name}</span> ({commune.department.code}) • Codes postaux : <span class="text-primary-600 font-semibold">{commune.postalCodes.join(', ')}</span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials Section -->
-  <section class="py-20 bg-gray-50 border-y border-gray-200">
-    <div class="container mx-auto">
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center uppercase tracking-tight">
-        Témoignages Clients
-      </h2>
-      <div class="h-1 w-24 bg-primary-600 mx-auto mb-12"></div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {testimonials.map((testimonial: any) => (
-          <div class="bg-white border-2 border-gray-200 p-8 hover:border-primary-600 transition-colors">
-            <div class="flex items-center gap-1 mb-4 pb-4 border-b-2 border-primary-600">
+          <div class="bg-white border-2 border-gray-200 p-6 hover:border-primary-600 transition-colors rounded-xl">
+            <div class="flex items-center gap-1 mb-4">
               {[...Array(testimonial.rating)].map(() => (
                 <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                 </svg>
               ))}
             </div>
-            <p class="text-gray-800 mb-6 leading-relaxed font-medium italic">"{testimonial.text}"</p>
-            <div class="text-sm border-t border-gray-200 pt-4">
-              <p class="font-bold text-gray-900 uppercase tracking-wide">{testimonial.name}</p>
-              <p class="text-gray-600 mt-1">{testimonial.location}</p>
+            <p class="text-gray-800 mb-4 italic">"{testimonial.text}"</p>
+            <div class="text-sm border-t border-gray-200 pt-3">
+              <p class="font-bold text-gray-900">{testimonial.name}</p>
+              <p class="text-gray-600">{testimonial.location}</p>
             </div>
           </div>
         ))}
@@ -387,59 +73,21 @@ const whyChooseUs = getWhyChooseUsText(commune);
     </div>
   </section>
 
-  <!-- Team Section -->
+  <!-- Team Section (Notre équipe) -->
   <Team />
 
-  <!-- Blog SEO Section -->
-  <BlogSEO commune={commune} />
+  <!-- Map Section (La carte) -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 uppercase tracking-tight mb-4">
+          Zone d'intervention à {commune.name}
+        </h2>
+        <div class="h-1 w-24 bg-primary-600 mx-auto"></div>
+      </div>
 
-  <!-- Contact CTA Section -->
-  <section class="py-20 bg-primary-700 text-white border-t-4 border-primary-800">
-    <div class="container mx-auto text-center">
-      <h2 class="text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight">
-        Votre artisan plombier basé à {commune.name}
-      </h2>
-      <div class="flex flex-wrap justify-center gap-6 mb-10 text-lg">
-        <div class="flex items-center gap-2 border-l-4 border-white pl-4">
-          <span class="font-bold">Ouvert 7h30-18h</span>
-        </div>
-        <div class="flex items-center gap-2 border-l-4 border-accent-500 pl-4">
-          <span class="font-bold">Urgence 24/7</span>
-        </div>
-        <div class="flex items-center gap-2 border-l-4 border-success-500 pl-4">
-          <span class="font-bold">Devis gratuit</span>
-        </div>
-      </div>
-      <div class="flex flex-col sm:flex-row gap-6 justify-center">
-        <Button variant="emergency" size="lg" href="tel:0758239126">
-          07.58.23.91.26
-        </Button>
-        <Button variant="secondary" size="lg" href="/contact" class="bg-white text-primary-700 hover:bg-gray-100 border-white">
-          Demander un devis
-        </Button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Map Section -->
-  <section class="py-20 bg-white border-t border-gray-200">
-    <div class="container mx-auto">
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center uppercase tracking-tight">
-        Zone d'intervention à {commune.name}
-      </h2>
-      <div class="h-1 w-24 bg-primary-600 mx-auto mb-8"></div>
-      <div class="text-center mb-10">
-        <div class="inline-block px-8 py-4 bg-primary-50 border-l-4 border-primary-600">
-          <p class="text-gray-900 font-bold uppercase tracking-wide">
-            Plombier installé à {commune.name}
-          </p>
-          <p class="text-gray-700 text-sm mt-1">
-            Intervention rapide dans votre commune et alentours
-          </p>
-        </div>
-      </div>
       <div class="max-w-5xl mx-auto">
-        <div class="relative w-full h-96 border-4 border-gray-300 overflow-hidden">
+        <div class="relative w-full h-96 border-4 border-gray-300 overflow-hidden rounded-xl">
           <iframe
             width="100%"
             height="100%"
@@ -450,6 +98,45 @@ const whyChooseUs = getWhyChooseUsText(commune);
             src={`https://maps.google.com/maps?q=${commune.coordinates.lat},${commune.coordinates.lng}&hl=fr&z=14&output=embed`}
             title={`Carte de ${commune.name}`}
           ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-16 bg-primary-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6 uppercase">
+        Contactez-nous
+      </h2>
+
+      <div class="max-w-2xl mx-auto mb-8">
+        <p class="text-lg mb-6">
+          Besoin d'un plombier à {commune.name} ? Contactez-nous maintenant pour un devis gratuit.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+          <a
+            href="tel:0756974493"
+            class="inline-flex items-center justify-center gap-3 bg-accent-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-accent-700 transition-all"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            07.56.97.44.93
+          </a>
+
+          <a
+            href="#contact"
+            class="inline-flex items-center justify-center gap-3 bg-white text-primary-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all"
+          >
+            Devis Gratuit
+          </a>
+        </div>
+
+        <div class="text-sm opacity-90">
+          <p>Ouvert 7h30-18h • Urgences 24/7</p>
+          <p>Intervention rapide à {commune.name} et alentours</p>
         </div>
       </div>
     </div>

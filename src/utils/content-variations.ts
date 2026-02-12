@@ -40,7 +40,7 @@ export function getHeroTitle(commune: Commune): string {
  */
 export function getMetaDescription(commune: Commune): string {
   const postalCode = commune.postalCodes[0] || '';
-  return `Artisan plombier basé à ${commune.name} (${postalCode}). Intervention locale et rapide dans votre commune. Ouvert 7h30-18h, urgence 24/7. Devis gratuit ☎️ 07.58.23.91.26`;
+  return `Artisan plombier basé à ${commune.name} (${postalCode}). Intervention locale et rapide dans votre commune. Ouvert 7h30-18h, urgence 24/7. Devis gratuit ☎️ 07.56.97.44.93`;
 }
 
 /**
