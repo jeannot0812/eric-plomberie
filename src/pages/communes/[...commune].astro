@@ -42,14 +42,19 @@ const neighborCommunes = commune.neighbors
   <!-- Banner Urgence Sticky -->
   <div class="sticky top-16 z-40 bg-accent-500 text-white py-3 shadow-lg">
     <div class="container mx-auto">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between gap-4">
         <div class="flex items-center gap-2">
           <span class="text-2xl animate-pulse">🚨</span>
-          <span class="font-semibold">Urgence 24/7 • Basé à {commune.name}</span>
+          <span class="font-semibold text-sm md:text-base">Urgence 24/7 • Basé à {commune.name}</span>
         </div>
-        <Button variant="emergency" size="sm" href="tel:0758239126" class="bg-white text-accent-600 hover:bg-gray-100">
-          📞 07.58.23.91.26
-        </Button>
+        <a
+          href="tel:0758239126"
+          class="inline-flex items-center gap-2 bg-white text-accent-600 px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold hover:bg-gray-100 transition-colors whitespace-nowrap text-sm md:text-base shadow-md"
+        >
+          <span class="text-lg">📞</span>
+          <span class="hidden sm:inline">07.58.23.91.26</span>
+          <span class="sm:hidden">Appeler</span>
+        </a>
       </div>
     </div>
   </div>
