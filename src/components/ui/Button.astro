@@ -9,7 +9,7 @@ interface Props {
 const { variant = 'primary', size = 'md', href, class: className = '' } = Astro.props;
 const Tag = href ? 'a' : 'button';
 
-const baseClasses = 'inline-flex items-center justify-center font-bold uppercase tracking-wide transition-all duration-200 border-2';
+const baseClasses = 'inline-flex items-center justify-center font-bold uppercase tracking-wide transition-all duration-200 border-2 rounded-lg';
 
 const variantClasses = {
   primary: 'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 border-primary-700',

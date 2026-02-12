@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  /* Palette de couleurs pour plomberie */
+  /* Palette Bleu + Orange - Confiance et Énergie */
+
+  /* PRIMARY: Bleu (Confiance, eau, professionnalisme) */
   --color-primary-50: #eff6ff;
   --color-primary-100: #dbeafe;
   --color-primary-200: #bfdbfe;
@@ -13,17 +15,19 @@
   --color-primary-800: #1e40af;
   --color-primary-900: #1e3a8a;
 
-  --color-accent-50: #fef2f2;
-  --color-accent-100: #fee2e2;
-  --color-accent-200: #fecaca;
-  --color-accent-300: #fca5a5;
-  --color-accent-400: #f87171;
-  --color-accent-500: #ef4444;
-  --color-accent-600: #dc2626;
-  --color-accent-700: #b91c1c;
-  --color-accent-800: #991b1b;
-  --color-accent-900: #7f1d1d;
+  /* ACCENT: Orange (Urgence, énergie, chaleur) */
+  --color-accent-50: #fff7ed;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fed7aa;
+  --color-accent-300: #fdba74;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2410c;
+  --color-accent-800: #9a3412;
+  --color-accent-900: #7c2d12;
 
+  /* SUCCESS: Green (Vert confiance) */
   --color-success-50: #f0fdf4;
   --color-success-100: #dcfce7;
   --color-success-200: #bbf7d0;

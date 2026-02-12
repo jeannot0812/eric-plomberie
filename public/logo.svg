@@ -1,11 +1,52 @@
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background circle -->
-  <circle cx="24" cy="24" r="24" fill="#2563EB"/>
+<svg width="280" height="64" viewBox="0 0 280 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
 
-  <!-- Wrench icon -->
-  <path d="M32 16.5C32 14.57 30.43 13 28.5 13C27.25 13 26.16 13.67 25.59 14.67L20 20.26V23H22.74L28.33 17.41C29.33 16.84 30 15.75 30 14.5C30 13.67 30.67 13 31.5 13C32.33 13 33 13.67 33 14.5C33 15.33 32.33 16 31.5 16H32C33.1 16 34 16.9 34 18V19C34 20.1 33.1 21 32 21H30.5L26.71 24.79C26.89 25.17 27 25.58 27 26C27 27.66 25.66 29 24 29C22.34 29 21 27.66 21 26C21 24.34 22.34 23 24 23C24.42 23 24.83 23.11 25.21 23.29L29 19.5V18C29 16.9 29.9 16 31 16H32.5C32.78 16 33 16.22 33 16.5Z" fill="white"/>
+  <!-- Icône carrée arrondie -->
+  <rect width="64" height="64" rx="16" fill="url(#bgGradient)"/>
 
-  <!-- Droplet -->
-  <path d="M18 25C18 27.76 15.76 30 13 30C10.24 30 8 27.76 8 25C8 22.24 13 15 13 15C13 15 18 22.24 18 25Z" fill="#60A5FA"/>
-  <path d="M18 25C18 27.76 15.76 30 13 30C10.24 30 8 27.76 8 25C8 22.24 13 15 13 15C13 15 18 22.24 18 25Z" stroke="white" stroke-width="1.5"/>
+  <!-- Lettre E stylisée -->
+  <g transform="translate(16, 14)">
+    <path d="M6 6 H26 V11 H12 V17 H24 V22 H12 V30 H26 V35 H6 Z" fill="white" stroke="white" stroke-width="1"/>
+  </g>
+
+  <!-- Point d'accent orange (goutte d'eau) -->
+  <circle cx="48" cy="48" r="7" fill="#F97316"/>
+  <circle cx="48" cy="48" r="4" fill="white" opacity="0.4"/>
+
+  <!-- Séparateur vertical subtil -->
+  <rect x="78" y="12" width="1" height="40" fill="#E5E7EB"/>
+
+  <!-- ERIC PLOMBERIE - Texte principal -->
+  <g transform="translate(92, 0)">
+    <!-- ERIC -->
+    <text x="0" y="32"
+          font-family="system-ui, -apple-system, 'Segoe UI', sans-serif"
+          font-size="28"
+          font-weight="800"
+          fill="url(#textGradient)"
+          letter-spacing="0.5">ERIC</text>
+
+    <!-- PLOMBERIE -->
+    <text x="0" y="52"
+          font-family="system-ui, -apple-system, 'Segoe UI', sans-serif"
+          font-size="18"
+          font-weight="600"
+          fill="#374151"
+          letter-spacing="3">PLOMBERIE</text>
+  </g>
+
+  <!-- Badge "Certifié" mini -->
+  <g transform="translate(240, 18)">
+    <circle cx="12" cy="12" r="12" fill="#10B981"/>
+    <path d="M8 12 L11 15 L17 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
 </svg>
