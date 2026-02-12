@@ -82,12 +82,9 @@ const neighborCommunes = commune.neighbors
           </h3>
           <div class="flex flex-wrap justify-center gap-3">
             {neighborCommunes.map((neighbor: any) => (
-              <a
-                href={`/communes/${neighbor.slug}`}
-                class="px-4 py-2 bg-gray-100 hover:bg-primary-100 rounded-lg text-gray-700 hover:text-primary-600 transition"
-              >
+              <span class="px-4 py-2 bg-gray-100 rounded-lg text-gray-600">
                 {neighbor.name}
-              </a>
+              </span>
             ))}
           </div>
         </div>
