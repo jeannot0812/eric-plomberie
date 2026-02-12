@@ -17,55 +17,574 @@
   },
   "communes": [
     {
-      "id": "75056",
-      "name": "Paris",
-      "slug": "paris",
+      "id": "75101",
+      "name": "Paris 1er",
+      "slug": "paris-1er",
       "postalCodes": [
-        "75001",
-        "75002",
-        "75003",
-        "75004",
-        "75005",
-        "75006",
-        "75007",
-        "75008",
-        "75009",
-        "75010",
-        "75011",
-        "75012",
-        "75013",
-        "75014",
-        "75015",
-        "75016",
-        "75017",
-        "75018",
-        "75019",
-        "75020",
-        "75116"
+        "75001"
       ],
       "department": {
         "code": "75",
         "name": "Paris"
       },
-      "population": 2103778,
+      "population": 105188,
       "coordinates": {
-        "lat": 48.8589,
-        "lng": 2.347
+        "lat": 48.8606,
+        "lng": 2.3376
       },
       "neighbors": [
-        "93061",
-        "94037",
-        "92049",
-        "94043",
-        "94067",
-        "93006",
-        "94018",
-        "92044"
+        "75102",
+        "75104",
+        "75106",
+        "75107",
+        "75108"
+      ],
+      "landmarks": [
+        "Louvre",
+        "Palais Royal"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75102",
+      "name": "Paris 2e",
+      "slug": "paris-2e",
+      "postalCodes": [
+        "75002"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8693,
+        "lng": 2.3417
+      },
+      "neighbors": [
+        "75101",
+        "75103",
+        "75109",
+        "75110"
+      ],
+      "landmarks": [
+        "Bourse",
+        "Opéra Comique"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75103",
+      "name": "Paris 3e",
+      "slug": "paris-3e",
+      "postalCodes": [
+        "75003"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.863,
+        "lng": 2.3633
+      },
+      "neighbors": [
+        "75102",
+        "75104",
+        "75110",
+        "75111"
+      ],
+      "landmarks": [
+        "Marais",
+        "Place des Vosges"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75104",
+      "name": "Paris 4e",
+      "slug": "paris-4e",
+      "postalCodes": [
+        "75004"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.854,
+        "lng": 2.359
+      },
+      "neighbors": [
+        "75101",
+        "75103",
+        "75105",
+        "75106",
+        "75111",
+        "75112"
+      ],
+      "landmarks": [
+        "Notre-Dame",
+        "Île de la Cité"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75105",
+      "name": "Paris 5e",
+      "slug": "paris-5e",
+      "postalCodes": [
+        "75005"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8462,
+        "lng": 2.3514
+      },
+      "neighbors": [
+        "75104",
+        "75106",
+        "75112",
+        "75113",
+        "75114"
+      ],
+      "landmarks": [
+        "Panthéon",
+        "Jardin des Plantes"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75106",
+      "name": "Paris 6e",
+      "slug": "paris-6e",
+      "postalCodes": [
+        "75006"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.85,
+        "lng": 2.3308
+      },
+      "neighbors": [
+        "75101",
+        "75104",
+        "75105",
+        "75107",
+        "75114",
+        "75115"
+      ],
+      "landmarks": [
+        "Saint-Germain-des-Prés",
+        "Luxembourg"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75107",
+      "name": "Paris 7e",
+      "slug": "paris-7e",
+      "postalCodes": [
+        "75007"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8568,
+        "lng": 2.3106
+      },
+      "neighbors": [
+        "75101",
+        "75106",
+        "75108",
+        "75115",
+        "75116"
       ],
       "landmarks": [
         "Tour Eiffel",
-        "Notre-Dame",
+        "Invalides"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75108",
+      "name": "Paris 8e",
+      "slug": "paris-8e",
+      "postalCodes": [
+        "75008"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8737,
+        "lng": 2.3117
+      },
+      "neighbors": [
+        "75101",
+        "75107",
+        "75109",
+        "75116",
+        "75117"
+      ],
+      "landmarks": [
+        "Champs-Élysées",
         "Arc de Triomphe"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75109",
+      "name": "Paris 9e",
+      "slug": "paris-9e",
+      "postalCodes": [
+        "75009"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8768,
+        "lng": 2.3387
+      },
+      "neighbors": [
+        "75102",
+        "75108",
+        "75110",
+        "75117",
+        "75118"
+      ],
+      "landmarks": [
+        "Opéra Garnier",
+        "Galeries Lafayette"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75110",
+      "name": "Paris 10e",
+      "slug": "paris-10e",
+      "postalCodes": [
+        "75010"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.876,
+        "lng": 2.3617
+      },
+      "neighbors": [
+        "75102",
+        "75103",
+        "75109",
+        "75111",
+        "75118",
+        "75119"
+      ],
+      "landmarks": [
+        "Gare du Nord",
+        "Gare de l'Est"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75111",
+      "name": "Paris 11e",
+      "slug": "paris-11e",
+      "postalCodes": [
+        "75011"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8594,
+        "lng": 2.3803
+      },
+      "neighbors": [
+        "75103",
+        "75104",
+        "75110",
+        "75112",
+        "75119",
+        "75120"
+      ],
+      "landmarks": [
+        "Bastille",
+        "Place de la République"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75112",
+      "name": "Paris 12e",
+      "slug": "paris-12e",
+      "postalCodes": [
+        "75012"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8412,
+        "lng": 2.3885
+      },
+      "neighbors": [
+        "75104",
+        "75105",
+        "75111",
+        "75113",
+        "75120"
+      ],
+      "landmarks": [
+        "Gare de Lyon",
+        "Bercy"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75113",
+      "name": "Paris 13e",
+      "slug": "paris-13e",
+      "postalCodes": [
+        "75013"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8322,
+        "lng": 2.3561
+      },
+      "neighbors": [
+        "75105",
+        "75112",
+        "75114"
+      ],
+      "landmarks": [
+        "Bibliothèque Nationale",
+        "Place d'Italie"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75114",
+      "name": "Paris 14e",
+      "slug": "paris-14e",
+      "postalCodes": [
+        "75014"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8339,
+        "lng": 2.327
+      },
+      "neighbors": [
+        "75105",
+        "75106",
+        "75113",
+        "75115"
+      ],
+      "landmarks": [
+        "Montparnasse",
+        "Catacombes"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75115",
+      "name": "Paris 15e",
+      "slug": "paris-15e",
+      "postalCodes": [
+        "75015"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8421,
+        "lng": 2.2965
+      },
+      "neighbors": [
+        "75106",
+        "75107",
+        "75114",
+        "75116"
+      ],
+      "landmarks": [
+        "Tour Montparnasse",
+        "Parc André Citroën"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75116",
+      "name": "Paris 16e",
+      "slug": "paris-16e",
+      "postalCodes": [
+        "75016"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8637,
+        "lng": 2.2769
+      },
+      "neighbors": [
+        "75107",
+        "75108",
+        "75115",
+        "75117"
+      ],
+      "landmarks": [
+        "Trocadéro",
+        "Bois de Boulogne"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75117",
+      "name": "Paris 17e",
+      "slug": "paris-17e",
+      "postalCodes": [
+        "75017"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8873,
+        "lng": 2.3147
+      },
+      "neighbors": [
+        "75108",
+        "75109",
+        "75116",
+        "75118"
+      ],
+      "landmarks": [
+        "Batignolles",
+        "Parc Monceau"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75118",
+      "name": "Paris 18e",
+      "slug": "paris-18e",
+      "postalCodes": [
+        "75018"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8927,
+        "lng": 2.3447
+      },
+      "neighbors": [
+        "75109",
+        "75110",
+        "75117",
+        "75119"
+      ],
+      "landmarks": [
+        "Montmartre",
+        "Sacré-Cœur"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75119",
+      "name": "Paris 19e",
+      "slug": "paris-19e",
+      "postalCodes": [
+        "75019"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8838,
+        "lng": 2.382
+      },
+      "neighbors": [
+        "75110",
+        "75111",
+        "75118",
+        "75120"
+      ],
+      "landmarks": [
+        "Buttes-Chaumont",
+        "La Villette"
+      ],
+      "type": "urban"
+    },
+    {
+      "id": "75120",
+      "name": "Paris 20e",
+      "slug": "paris-20e",
+      "postalCodes": [
+        "75020"
+      ],
+      "department": {
+        "code": "75",
+        "name": "Paris"
+      },
+      "population": 105188,
+      "coordinates": {
+        "lat": 48.8648,
+        "lng": 2.3988
+      },
+      "neighbors": [
+        "75111",
+        "75112",
+        "75119"
+      ],
+      "landmarks": [
+        "Père Lachaise",
+        "Belleville"
       ],
       "type": "urban"
     },
