@@ -5,6 +5,7 @@ import Footer from '../../components/layout/Footer.astro';
 import Hero from '../../components/sections/Hero.astro';
 import Services from '../../components/sections/Services.astro';
 import Team from '../../components/sections/Team.astro';
+import BlogSEO from '../../components/sections/BlogSEO.astro';
 import Button from '../../components/ui/Button.astro';
 
 import communesData from '../../data/communes.json';
@@ -388,6 +389,9 @@ const whyChooseUs = getWhyChooseUsText(commune);
 
   <!-- Team Section -->
   <Team />
+
+  <!-- Blog SEO Section -->
+  <BlogSEO commune={commune} />
 
   <!-- Contact CTA Section -->
   <section class="py-20 bg-primary-700 text-white border-t-4 border-primary-800">

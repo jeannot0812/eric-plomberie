@@ -1,0 +1,139 @@
+---
+// Section Blog SEO - Chargement dynamique des articles
+interface Props {
+  commune: {
+    name: string;
+    slug: string;
+  };
+}
+
+const { commune } = Astro.props;
+---
+
+<section id="blog-seo" class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <!-- Titre de la section -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        Actualités Plomberie à {commune.name}
+      </h2>
+      <p class="text-lg text-gray-600">
+        Conseils et astuces de nos experts plombiers
+      </p>
+    </div>
+
+    <!-- Container des articles (chargement dynamique) -->
+    <div id="blog-articles-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+      <!-- Skeleton loading -->
+      {[1, 2, 3].map(() => (
+        <div class="blog-skeleton bg-white rounded-xl p-6 border-2 border-gray-200 animate-pulse">
+          <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+          <div class="h-4 bg-gray-200 rounded w-1/2 mb-6"></div>
+          <div class="space-y-2">
+            <div class="h-3 bg-gray-200 rounded"></div>
+            <div class="h-3 bg-gray-200 rounded"></div>
+            <div class="h-3 bg-gray-200 rounded w-5/6"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ communeSlug: commune.slug }}>
+  // Fonction pour charger les articles depuis l'API
+  async function loadBlogArticles() {
+    try {
+      const response = await fetch(`/api/blog/${communeSlug}`);
+
+      if (!response.ok) {
+        console.error('Erreur chargement articles:', response.status);
+        return;
+      }
+
+      const articles = await response.json();
+
+      const container = document.getElementById('blog-articles-container');
+      if (!container) return;
+
+      // Remplacer les skeletons par les vrais articles
+      container.innerHTML = articles.map(article => `
+        <article class="bg-white rounded-xl p-6 border-2 border-gray-200 hover:border-primary-600 transition-all">
+          <div class="flex items-center gap-2 text-xs text-gray-500 mb-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <time datetime="${article.publishedAt}">${new Date(article.publishedAt).toLocaleDateString('fr-FR', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}</time>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight">
+            ${article.title}
+          </h3>
+
+          <p class="text-sm text-gray-700 leading-relaxed mb-4">
+            ${article.excerpt}
+          </p>
+
+          <div class="flex flex-wrap gap-2 mb-4">
+            ${article.keywords.slice(0, 3).map(keyword => `
+              <span class="px-3 py-1 bg-primary-50 text-primary-700 text-xs font-semibold rounded-full">
+                ${keyword}
+              </span>
+            `).join('')}
+          </div>
+
+          <button
+            onclick="openArticle('${article.id}')"
+            class="text-primary-600 font-semibold text-sm hover:text-primary-700 flex items-center gap-2"
+          >
+            Lire la suite
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </article>
+      `).join('');
+
+    } catch (error) {
+      console.error('Erreur chargement articles:', error);
+      const container = document.getElementById('blog-articles-container');
+      if (container) {
+        container.innerHTML = '<p class="text-center text-gray-500">Chargement des articles...</p>';
+      }
+    }
+  }
+
+  // Charger les articles au chargement de la page
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadBlogArticles);
+  } else {
+    loadBlogArticles();
+  }
+
+  // Fonction pour ouvrir un article complet (modal ou nouvelle page)
+  window.openArticle = function(articleId) {
+    // TODO: Implémenter l'ouverture de l'article complet
+    console.log('Ouverture article:', articleId);
+  };
+</script>
+
+<style>
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+</style>

@@ -6,9 +6,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "seo:test": "node scripts/test-generate-one-article.mjs",
+    "seo:generate": "node scripts/generate-seo-content.mjs",
+    "seo:morning": "TIME_SLOT=morning node scripts/generate-seo-content.mjs",
+    "seo:noon": "TIME_SLOT=noon node scripts/generate-seo-content.mjs",
+    "seo:evening": "TIME_SLOT=evening node scripts/generate-seo-content.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.74.0",
     "@astrojs/sitemap": "^3.7.0",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.17.1",
