@@ -1,0 +1,148 @@
+---
+// Aperçu des photos d'équipe avant intégration
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aperçu Photos Équipe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .team-member {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #2563eb;
+            margin-bottom: 20px;
+        }
+        .team-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 0 0 5px 0;
+        }
+        .team-age {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .team-role {
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        .team-description {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: left;
+        }
+        .note {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .note strong {
+            color: #b45309;
+        }
+    </style>
+</head>
+<body>
+    <h1>Notre Équipe - Eric Plomberie</h1>
+    <p class="subtitle">Des professionnels passionnés à votre service</p>
+
+    <div class="note">
+        <strong>⚠️ IMPORTANT:</strong> Ces photos sont des images de stock d'Unsplash (portraits professionnels génériques).
+        <br><br>
+        Pour un rendu final, vous devriez utiliser :
+        <br>• De vraies photos de votre équipe en tenue de travail
+        <br>• Ou des images professionnelles de plombiers qualifiés
+        <br><br>
+        Ces images sont juste pour montrer le design et la mise en page.
+    </div>
+
+    <div class="team-grid">
+        <div class="team-member">
+            <img src="/images/team/plumber-1.jpg" alt="Éric - Plombier Expert">
+            <h3 class="team-name">Éric</h3>
+            <p class="team-age">31 ans • Expert plomberie</p>
+            <p class="team-role">Artisan Plombier Qualifié</p>
+            <p class="team-description">
+                Éric vous accompagne pour tous vos projets de plomberie, du simple dépannage à la rénovation complète.
+                Expert en détection de fuites et installation de systèmes de chauffage, il met son savoir-faire au service
+                de votre confort depuis plus de 10 ans. Passionné par son métier, il garantit un travail soigné et durable.
+            </p>
+        </div>
+
+        <div class="team-member">
+            <img src="/images/team/plumber-2.jpg" alt="Michel - Spécialiste Chauffage">
+            <h3 class="team-name">Michel</h3>
+            <p class="team-age">28 ans • Spécialiste chauffage</p>
+            <p class="team-role">Plombier Certifié RGE</p>
+            <p class="team-description">
+                Michel est votre référent pour tous vos besoins en chauffage et sanitaire. Certifié RGE, il maîtrise
+                parfaitement l'installation et l'entretien des chaudières modernes et pompes à chaleur. Son souci du détail
+                et son écoute attentive font de lui un professionnel apprécié de tous nos clients.
+            </p>
+        </div>
+
+        <div class="team-member">
+            <img src="/images/team/plumber-3.jpg" alt="Ferdinand - Expert Dépannage">
+            <h3 class="team-name">Ferdinand</h3>
+            <p class="team-age">35 ans • Expert urgences</p>
+            <p class="team-role">Technicien Dépannage 24/7</p>
+            <p class="team-description">
+                Ferdinand est votre plombier pour les interventions d'urgence. Réactif et efficace, il intervient rapidement
+                pour résoudre vos problèmes de fuites, débouchages et pannes de chauffage. Fort de 12 ans d'expérience
+                en dépannage, il trouve toujours la solution adaptée à chaque situation, même les plus complexes.
+            </p>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px; text-align: center; color: #6b7280;">
+        <p><strong>Voulez-vous que j'intègre cette section dans toutes les pages ?</strong></p>
+        <p>Elle sera affichée entre la section des avis et la carte Google Maps.</p>
+    </div>
+</body>
+</html>

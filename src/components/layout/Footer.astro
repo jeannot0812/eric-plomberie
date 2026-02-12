@@ -2,54 +2,85 @@
 const currentYear = new Date().getFullYear();
 ---
 
-<footer id="contact" class="bg-gray-900 text-white py-12">
+<footer id="contact" class="bg-gray-900 text-white py-16 border-t-4 border-primary-600">
   <div class="container mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
       <!-- À propos -->
       <div>
-        <h3 class="text-lg font-semibold mb-4">Eric Plomberie</h3>
-        <p class="text-gray-400 text-sm">
+        <h3 class="text-xl font-black mb-6 uppercase tracking-wider border-b-2 border-primary-600 pb-3">Eric Plomberie</h3>
+        <p class="text-gray-300 text-sm leading-relaxed font-medium">
           Artisan plombier de proximité. Intervention rapide dans votre commune et ses environs.
         </p>
       </div>
 
       <!-- Services -->
       <div>
-        <h3 class="text-lg font-semibold mb-4">Services</h3>
-        <ul class="space-y-2 text-sm text-gray-400">
-          <li><a href="/services/depannage-urgence" class="hover:text-white">Dépannage Urgence</a></li>
-          <li><a href="/services/fuite-eau" class="hover:text-white">Fuite d'eau</a></li>
-          <li><a href="/services/debouchage" class="hover:text-white">Débouchage</a></li>
-          <li><a href="/services/installation" class="hover:text-white">Installation</a></li>
+        <h3 class="text-xl font-black mb-6 uppercase tracking-wider border-b-2 border-primary-600 pb-3">Services</h3>
+        <ul class="space-y-3 text-sm text-gray-300">
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-primary-600"></span>
+            <a href="/services/depannage-urgence" class="hover:text-white font-medium transition-colors">Dépannage Urgence</a>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-primary-600"></span>
+            <a href="/services/fuite-eau" class="hover:text-white font-medium transition-colors">Fuite d'eau</a>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-primary-600"></span>
+            <a href="/services/debouchage" class="hover:text-white font-medium transition-colors">Débouchage</a>
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-primary-600"></span>
+            <a href="/services/installation" class="hover:text-white font-medium transition-colors">Installation</a>
+          </li>
         </ul>
       </div>
 
       <!-- Horaires -->
       <div>
-        <h3 class="text-lg font-semibold mb-4">Horaires</h3>
-        <ul class="space-y-2 text-sm text-gray-400">
-          <li>🕐 Lun-Ven : 7h30 - 18h</li>
-          <li>🕐 Samedi : 7h30 - 18h</li>
-          <li>🚨 Urgence 24/7 disponible</li>
+        <h3 class="text-xl font-black mb-6 uppercase tracking-wider border-b-2 border-primary-600 pb-3">Horaires</h3>
+        <ul class="space-y-3 text-sm text-gray-300">
+          <li class="flex items-start gap-3">
+            <span class="w-2 h-2 bg-white mt-1.5"></span>
+            <span class="font-medium">Lun-Ven : 7h30 - 18h</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-2 h-2 bg-white mt-1.5"></span>
+            <span class="font-medium">Samedi : 7h30 - 18h</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-2 h-2 bg-accent-600 mt-1.5"></span>
+            <span class="font-bold text-accent-400">Urgence 24/7 disponible</span>
+          </li>
         </ul>
       </div>
 
       <!-- Contact -->
       <div>
-        <h3 class="text-lg font-semibold mb-4">Contact</h3>
-        <ul class="space-y-2 text-sm text-gray-400">
-          <li>📞 07.58.23.91.26</li>
-          <li>📧 contact@plombier-local.fr</li>
-          <li>📍 Artisan de proximité</li>
+        <h3 class="text-xl font-black mb-6 uppercase tracking-wider border-b-2 border-primary-600 pb-3">Contact</h3>
+        <ul class="space-y-3 text-sm text-gray-300">
+          <li class="flex items-start gap-3">
+            <span class="text-primary-400 font-black">TEL</span>
+            <a href="tel:0758239126" class="font-bold text-white hover:text-primary-400 transition-colors">07.58.23.91.26</a>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-primary-400 font-black">EMAIL</span>
+            <a href="mailto:contact@plombier-local.fr" class="font-medium hover:text-white transition-colors">contact@plombier-local.fr</a>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-primary-400 font-black">ZONE</span>
+            <span class="font-medium">Île-de-France</span>
+          </li>
         </ul>
       </div>
     </div>
 
-    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-      <p>&copy; {currentYear} Eric Plomberie. Tous droits réservés.</p>
-      <div class="mt-2 space-x-4">
-        <a href="/mentions-legales" class="hover:text-white">Mentions légales</a>
-        <a href="/contact" class="hover:text-white">Contact</a>
+    <div class="border-t-2 border-gray-700 mt-12 pt-8 text-center">
+      <p class="text-sm text-gray-400 font-medium mb-3 uppercase tracking-widest">&copy; {currentYear} Eric Plomberie. Tous droits réservés.</p>
+      <div class="flex justify-center gap-6 text-sm">
+        <a href="/mentions-legales" class="text-gray-400 hover:text-white font-medium uppercase tracking-wide transition-colors">Mentions légales</a>
+        <span class="text-gray-600">|</span>
+        <a href="/contact" class="text-gray-400 hover:text-white font-medium uppercase tracking-wide transition-colors">Contact</a>
       </div>
     </div>
   </div>

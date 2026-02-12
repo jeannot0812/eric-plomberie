@@ -2,24 +2,24 @@
 import Button from '../ui/Button.astro';
 ---
 
-<header class="bg-white shadow-sm sticky top-0 z-50">
+<header class="bg-white border-b-2 border-gray-200 sticky top-0 z-50">
   <div class="container mx-auto">
     <div class="flex items-center justify-between py-4">
       <!-- Logo -->
-      <a href="/" class="flex items-center space-x-3">
+      <div class="flex items-center space-x-3">
         <img src="/logo.svg" alt="Eric Plomberie" class="w-12 h-12">
         <div>
-          <div class="text-xl font-bold text-primary-600">Eric Plomberie</div>
-          <div class="text-xs text-gray-600">Artisan de proximité</div>
+          <div class="text-xl font-bold text-primary-600 uppercase tracking-tight">Eric Plomberie</div>
+          <div class="text-xs text-gray-600 font-medium">Artisan de proximité</div>
         </div>
-      </a>
+      </div>
 
       <!-- Navigation desktop -->
       <nav class="hidden md:flex items-center space-x-6">
-        <a href="#services" class="text-gray-700 hover:text-primary-600 transition">Services</a>
-        <a href="#contact" class="text-gray-700 hover:text-primary-600 transition">Contact</a>
-        <a href="tel:0758239126" class="text-primary-600 font-semibold hover:text-primary-700">
-          📞 07.58.23.91.26
+        <a href="#services" class="text-gray-700 hover:text-primary-600 transition font-medium uppercase text-sm tracking-wide">Services</a>
+        <a href="#contact" class="text-gray-700 hover:text-primary-600 transition font-medium uppercase text-sm tracking-wide">Contact</a>
+        <a href="tel:0758239126" class="text-primary-600 font-semibold hover:text-primary-700 border-l-2 border-primary-600 pl-4">
+          07.58.23.91.26
         </a>
       </nav>
 

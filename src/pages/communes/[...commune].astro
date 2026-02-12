@@ -4,6 +4,7 @@ import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
 import Hero from '../../components/sections/Hero.astro';
 import Services from '../../components/sections/Services.astro';
+import Team from '../../components/sections/Team.astro';
 import Button from '../../components/ui/Button.astro';
 
 import communesData from '../../data/communes.json';
@@ -43,19 +44,53 @@ const whyChooseUs = getWhyChooseUsText(commune);
   <!-- Hero Section -->
   <Hero commune={commune} />
 
+  <!-- Trust Badges Section -->
+  <section class="py-12 bg-white border-b-2 border-gray-300">
+    <div class="container mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Badge 1: Assurance Décennale -->
+        <div class="flex flex-col items-center text-center p-6 bg-gray-50 border-2 border-gray-300 hover:border-primary-600 transition-colors">
+          <div class="text-4xl font-black text-primary-600 mb-3 tracking-tighter">10 ANS</div>
+          <div class="font-black text-gray-900 text-xs uppercase tracking-widest mb-1">Assurance Décennale</div>
+          <div class="text-xs text-gray-600 font-medium">Travaux garantis</div>
+        </div>
+
+        <!-- Badge 2: Certifié RGE -->
+        <div class="flex flex-col items-center text-center p-6 bg-gray-50 border-2 border-gray-300 hover:border-success-600 transition-colors">
+          <div class="text-4xl font-black text-success-600 mb-3 tracking-tighter">RGE</div>
+          <div class="font-black text-gray-900 text-xs uppercase tracking-widest mb-1">Certifié Qualibat</div>
+          <div class="text-xs text-gray-600 font-medium">Qualité reconnue</div>
+        </div>
+
+        <!-- Badge 3: Dispo 24/7 -->
+        <div class="flex flex-col items-center text-center p-6 bg-gray-50 border-2 border-gray-300 hover:border-accent-600 transition-colors">
+          <div class="text-4xl font-black text-accent-600 mb-3 tracking-tighter">24/7</div>
+          <div class="font-black text-gray-900 text-xs uppercase tracking-widest mb-1">Service Urgence</div>
+          <div class="text-xs text-gray-600 font-medium">Intervention rapide</div>
+        </div>
+
+        <!-- Badge 4: Satisfait ou remboursé -->
+        <div class="flex flex-col items-center text-center p-6 bg-gray-50 border-2 border-gray-300 hover:border-primary-600 transition-colors">
+          <div class="text-4xl font-black text-primary-600 mb-3 tracking-tighter">100%</div>
+          <div class="font-black text-gray-900 text-xs uppercase tracking-widest mb-1">Satisfaction Client</div>
+          <div class="text-xs text-gray-600 font-medium">Garantie qualité</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Banner Urgence Sticky -->
-  <div class="sticky top-16 z-40 bg-accent-500 text-white py-3 shadow-lg">
+  <div class="sticky top-16 z-40 bg-accent-600 text-white py-3 border-b-2 border-accent-700">
     <div class="container mx-auto">
       <div class="flex items-center justify-between gap-4">
-        <div class="flex items-center gap-2">
-          <span class="text-2xl animate-pulse">🚨</span>
-          <span class="font-semibold text-sm md:text-base">Urgence 24/7 • Basé à {commune.name}</span>
+        <div class="flex items-center gap-3">
+          <span class="inline-block w-2 h-2 bg-white rounded-full"></span>
+          <span class="font-semibold text-sm md:text-base uppercase tracking-wide">Service Urgence 24/7 • {commune.name}</span>
         </div>
         <a
           href="tel:0758239126"
-          class="inline-flex items-center gap-2 bg-white text-accent-600 px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold hover:bg-gray-100 transition-colors whitespace-nowrap text-sm md:text-base shadow-md"
+          class="inline-flex items-center gap-2 bg-white text-accent-700 px-5 py-2 font-semibold hover:bg-gray-50 transition-colors whitespace-nowrap text-sm md:text-base border border-accent-200"
         >
-          <span class="text-lg">📞</span>
           <span class="hidden sm:inline">07.58.23.91.26</span>
           <span class="sm:hidden">Appeler</span>
         </a>
@@ -63,30 +98,181 @@ const whyChooseUs = getWhyChooseUsText(commune);
     </div>
   </div>
 
+  <!-- Why Choose Us Section -->
+  <section class="py-20 bg-white border-y border-gray-200">
+    <div class="container mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center uppercase tracking-tight">
+        {whyChooseUs.title}
+      </h2>
+      <div class="h-1 w-24 bg-primary-600 mx-auto mb-12"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
+        {whyChooseUs.items.map((item: string) => (
+          <div class="flex items-start gap-4 p-6 bg-gray-50 border-l-4 border-primary-600">
+            <div class="flex-shrink-0 w-2 h-2 bg-primary-600 mt-2"></div>
+            <span class="text-gray-800 font-medium leading-relaxed">{item}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="text-center bg-gray-50 py-8 border-t-2 border-primary-600">
+        <p class="text-xl font-semibold text-gray-900">
+          {socialProof}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Défilement des marques -->
+  <section class="py-10 bg-gray-50 border-y border-gray-200">
+    <div class="container mx-auto">
+      <div class="overflow-hidden py-4">
+        <div class="flex gap-4 animate-scroll">
+          <!-- Marques de chauffage -->
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VIESSMANN</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">DE DIETRICH</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">SAUNIER DUVAL</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ATLANTIC</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">THERMOR</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VAILLANT</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ELM LEBLANC</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">FRISQUET</span>
+          </div>
+          <!-- Marques de plomberie -->
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">GEBERIT</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">GROHE</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">JACOB DELAFON</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">PORCHER</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VITRA</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">SFA</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">WATERMATIC</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ALLIA</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">DELABIE</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">POLAR</span>
+          </div>
+          <!-- Duplication pour le scroll infini -->
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VIESSMANN</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">DE DIETRICH</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">SAUNIER DUVAL</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ATLANTIC</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">THERMOR</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VAILLANT</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ELM LEBLANC</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">FRISQUET</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">GEBERIT</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">GROHE</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">JACOB DELAFON</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">PORCHER</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">VITRA</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">SFA</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">WATERMATIC</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">ALLIA</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">DELABIE</span>
+          </div>
+          <div class="px-6 py-3 bg-white border border-gray-300 shrink-0" aria-hidden="true">
+            <span class="text-gray-800 font-bold text-base whitespace-nowrap" style="letter-spacing: 0.03em;">POLAR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Services Section -->
   <Services />
 
   <!-- Service Area Section -->
-  <section class="py-16 bg-white">
+  <section class="py-20 bg-white border-y border-gray-200">
     <div class="container mx-auto">
-      <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center uppercase tracking-tight">
         Votre plombier installé à {commune.name}
       </h2>
-      <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-8">
+      <div class="h-1 w-24 bg-primary-600 mx-auto mb-8"></div>
+      <p class="text-lg text-gray-800 text-center max-w-4xl mx-auto mb-10 font-medium leading-relaxed">
         {serviceAreaText}
       </p>
-      <p class="text-center text-primary-600 font-semibold mb-8">
-        📍 Basé à {commune.name} • Intervention locale et rapide
-      </p>
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-3 px-6 py-3 bg-primary-50 border-l-4 border-primary-600">
+          <span class="text-primary-900 font-bold uppercase tracking-wide text-sm">Basé à {commune.name}</span>
+          <span class="text-gray-400">|</span>
+          <span class="text-gray-700 font-medium text-sm">Intervention locale et rapide</span>
+        </div>
+      </div>
 
       {neighborCommunes.length > 0 && (
-        <div class="mt-8">
-          <h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">
-            Depuis {commune.name}, nous intervenons aussi à proximité :
+        <div class="mt-12 bg-gray-50 py-8 border-t border-b border-gray-200">
+          <h3 class="text-xl font-bold text-gray-900 mb-6 text-center uppercase tracking-wide">
+            Zones d'intervention à proximité de {commune.name}
           </h3>
-          <div class="flex flex-wrap justify-center gap-3">
+          <div class="flex flex-wrap justify-center gap-2">
             {neighborCommunes.map((neighbor: any) => (
-              <span class="px-4 py-2 bg-gray-100 rounded-lg text-gray-600">
+              <span class="px-5 py-2 bg-white border-2 border-gray-300 text-gray-800 font-semibold text-sm uppercase tracking-wider hover:border-primary-600 hover:text-primary-600 transition-colors">
                 {neighbor.name}
               </span>
             ))}
@@ -95,56 +281,34 @@ const whyChooseUs = getWhyChooseUsText(commune);
       )}
 
       <div class="mt-8 text-center">
-        <p class="text-sm text-gray-500">
-          📍 {commune.department.name} ({commune.department.code}) - Code postal : {commune.postalCodes.join(', ')}
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Why Choose Us Section -->
-  <section class="py-16 bg-gray-50">
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">
-        {whyChooseUs.title}
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        {whyChooseUs.items.map((item: string) => (
-          <div class="flex items-start gap-3">
-            <div class="flex-shrink-0 w-6 h-6 bg-success-100 rounded-full flex items-center justify-center">
-              <span class="text-success-600 text-sm">✓</span>
-            </div>
-            <span class="text-gray-700">{item}</span>
-          </div>
-        ))}
-      </div>
-
-      <div class="mt-8 text-center">
-        <p class="text-lg text-gray-600">
-          {socialProof}
-        </p>
+        <div class="inline-block px-6 py-3 bg-white border border-gray-300">
+          <p class="text-sm text-gray-700 font-medium">
+            <span class="text-gray-900 font-bold">{commune.department.name}</span> ({commune.department.code}) • Codes postaux : <span class="text-primary-600 font-semibold">{commune.postalCodes.join(', ')}</span>
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Testimonials Section -->
-  <section class="py-16 bg-white">
+  <section class="py-20 bg-gray-50 border-y border-gray-200">
     <div class="container mx-auto">
-      <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">
-        Avis de nos clients
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center uppercase tracking-tight">
+        Témoignages Clients
       </h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="h-1 w-24 bg-primary-600 mx-auto mb-12"></div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {testimonials.map((testimonial: any) => (
-          <div class="bg-gray-50 rounded-xl p-6">
-            <div class="flex items-center gap-1 mb-3">
+          <div class="bg-white border-2 border-gray-200 p-8 hover:border-primary-600 transition-colors">
+            <div class="flex items-center gap-1 mb-4 pb-4 border-b-2 border-primary-600">
               {[...Array(testimonial.rating)].map(() => (
-                <span class="text-yellow-400">⭐</span>
+                <div class="w-4 h-4 bg-yellow-400 border border-yellow-500"></div>
               ))}
             </div>
-            <p class="text-gray-700 mb-4">"{testimonial.text}"</p>
-            <div class="text-sm">
-              <p class="font-semibold text-gray-900">{testimonial.name}</p>
-              <p class="text-gray-500">{testimonial.location}</p>
+            <p class="text-gray-800 mb-6 leading-relaxed font-medium italic">"{testimonial.text}"</p>
+            <div class="text-sm border-t border-gray-200 pt-4">
+              <p class="font-bold text-gray-900 uppercase tracking-wide">{testimonial.name}</p>
+              <p class="text-gray-600 mt-1">{testimonial.location}</p>
             </div>
           </div>
         ))}
@@ -152,20 +316,31 @@ const whyChooseUs = getWhyChooseUsText(commune);
     </div>
   </section>
 
+  <!-- Team Section -->
+  <Team />
+
   <!-- Contact CTA Section -->
-  <section class="py-16 bg-primary-600 text-white">
+  <section class="py-20 bg-primary-700 text-white border-t-4 border-primary-800">
     <div class="container mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-4">
+      <h2 class="text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight">
         Votre artisan plombier basé à {commune.name}
       </h2>
-      <p class="text-xl mb-8 text-primary-100">
-        Ouvert 7h30-18h • Service d'urgence 24/7 disponible • Devis gratuit
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <div class="flex flex-wrap justify-center gap-6 mb-10 text-lg">
+        <div class="flex items-center gap-2 border-l-4 border-white pl-4">
+          <span class="font-bold">Ouvert 7h30-18h</span>
+        </div>
+        <div class="flex items-center gap-2 border-l-4 border-accent-500 pl-4">
+          <span class="font-bold">Urgence 24/7</span>
+        </div>
+        <div class="flex items-center gap-2 border-l-4 border-success-500 pl-4">
+          <span class="font-bold">Devis gratuit</span>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-6 justify-center">
         <Button variant="emergency" size="lg" href="tel:0758239126">
-          📞 07.58.23.91.26
+          07.58.23.91.26
         </Button>
-        <Button variant="secondary" size="lg" href="/contact" class="bg-white text-primary-600 hover:bg-gray-100">
+        <Button variant="secondary" size="lg" href="/contact" class="bg-white text-primary-700 hover:bg-gray-100 border-white">
           Demander un devis
         </Button>
       </div>
@@ -173,16 +348,24 @@ const whyChooseUs = getWhyChooseUsText(commune);
   </section>
 
   <!-- Map Section -->
-  <section class="py-16 bg-white">
+  <section class="py-20 bg-white border-t border-gray-200">
     <div class="container mx-auto">
-      <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
-        Notre zone d'intervention à {commune.name}
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center uppercase tracking-tight">
+        Zone d'intervention à {commune.name}
       </h2>
-      <p class="text-center text-gray-600 mb-8">
-        📍 Plombier installé à {commune.name} - Intervention rapide dans votre commune
-      </p>
-      <div class="max-w-4xl mx-auto">
-        <div class="relative w-full h-96 rounded-xl overflow-hidden shadow-lg">
+      <div class="h-1 w-24 bg-primary-600 mx-auto mb-8"></div>
+      <div class="text-center mb-10">
+        <div class="inline-block px-8 py-4 bg-primary-50 border-l-4 border-primary-600">
+          <p class="text-gray-900 font-bold uppercase tracking-wide">
+            Plombier installé à {commune.name}
+          </p>
+          <p class="text-gray-700 text-sm mt-1">
+            Intervention rapide dans votre commune et alentours
+          </p>
+        </div>
+      </div>
+      <div class="max-w-5xl mx-auto">
+        <div class="relative w-full h-96 border-4 border-gray-300 overflow-hidden">
           <iframe
             width="100%"
             height="100%"
