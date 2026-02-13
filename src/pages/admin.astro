@@ -46,7 +46,20 @@ const description = "Interface d'administration pour gérer les contacts par dé
 
       <div id="admin-panel" class="hidden">
         <div class="bg-white rounded-lg shadow-md p-8">
-          <h2 class="text-2xl font-bold mb-6">Gestion des contacts par département</h2>
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold">Gestion des contacts par département</h2>
+            <div class="flex items-center gap-4">
+              <div id="session-timer" class="text-sm text-gray-500">
+                Session : <span id="session-time" class="font-semibold text-primary-600">10:00</span>
+              </div>
+              <button
+                id="logout-btn"
+                class="text-sm text-red-600 hover:text-red-700 font-semibold"
+              >
+                🚪 Déconnexion
+              </button>
+            </div>
+          </div>
 
           <div id="success-message" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
             Modifications enregistrées ! Le site sera redéployé dans 2-3 minutes.
@@ -202,17 +215,49 @@ const description = "Interface d'administration pour gérer les contacts par dé
 
   <script define:vars={{ departements, defaultContact }}>
     const PASSWORD = 'artisanplombier';
+    const SESSION_DURATION = 10 * 60 * 1000; // 10 minutes en millisecondes
+
+    // Fonction pour vérifier si la session est valide
+    function isSessionValid() {
+      const sessionTime = localStorage.getItem('admin-session-time');
+      if (!sessionTime) return false;
+
+      const now = Date.now();
+      const elapsed = now - parseInt(sessionTime, 10);
+      return elapsed < SESSION_DURATION;
+    }
+
+    // Fonction pour créer une session
+    function createSession() {
+      localStorage.setItem('admin-session-time', Date.now().toString());
+    }
+
+    // Fonction pour se connecter
+    function login() {
+      const loginForm = document.getElementById('login-form');
+      const adminPanel = document.getElementById('admin-panel');
+
+      loginForm?.classList.add('hidden');
+      adminPanel?.classList.remove('hidden');
+      createSession();
+    }
+
+    // Vérifier la session au chargement de la page
+    if (isSessionValid()) {
+      console.log('✅ Session valide - Auto-connexion');
+      login();
+    } else {
+      console.log('❌ Session expirée ou inexistante - Affichage du formulaire de connexion');
+      localStorage.removeItem('admin-session-time');
+    }
 
     // Authentification
     document.getElementById('login-btn')?.addEventListener('click', () => {
       const passwordInput = document.getElementById('password');
       const errorMessage = document.getElementById('error-message');
-      const loginForm = document.getElementById('login-form');
-      const adminPanel = document.getElementById('admin-panel');
 
       if (passwordInput.value === PASSWORD) {
-        loginForm?.classList.add('hidden');
-        adminPanel?.classList.remove('hidden');
+        login();
         errorMessage?.classList.add('hidden');
       } else {
         errorMessage?.classList.remove('hidden');
@@ -225,6 +270,53 @@ const description = "Interface d'administration pour gérer les contacts par dé
         document.getElementById('login-btn')?.click();
       }
     });
+
+    // Déconnexion
+    document.getElementById('logout-btn')?.addEventListener('click', () => {
+      localStorage.removeItem('admin-session-time');
+      location.reload();
+    });
+
+    // Mise à jour du timer de session
+    function updateSessionTimer() {
+      const sessionTime = localStorage.getItem('admin-session-time');
+      if (!sessionTime) return;
+
+      const now = Date.now();
+      const elapsed = now - parseInt(sessionTime, 10);
+      const remaining = SESSION_DURATION - elapsed;
+
+      if (remaining <= 0) {
+        // Session expirée
+        localStorage.removeItem('admin-session-time');
+        alert('⏰ Session expirée\n\nVous allez être déconnecté.');
+        location.reload();
+        return;
+      }
+
+      // Convertir en minutes:secondes
+      const minutes = Math.floor(remaining / 60000);
+      const seconds = Math.floor((remaining % 60000) / 1000);
+      const timeText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+      const sessionTimeElement = document.getElementById('session-time');
+      if (sessionTimeElement) {
+        sessionTimeElement.textContent = timeText;
+
+        // Changer la couleur si < 2 minutes
+        if (remaining < 2 * 60 * 1000) {
+          sessionTimeElement.classList.add('text-red-600');
+          sessionTimeElement.classList.remove('text-primary-600');
+        } else {
+          sessionTimeElement.classList.add('text-primary-600');
+          sessionTimeElement.classList.remove('text-red-600');
+        }
+      }
+    }
+
+    // Mettre à jour le timer toutes les secondes
+    setInterval(updateSessionTimer, 1000);
+    updateSessionTimer(); // Mise à jour immédiate
 
     // Recherche de départements
     document.getElementById('dept-search')?.addEventListener('input', (e) => {
@@ -327,6 +419,10 @@ const description = "Interface d'administration pour gérer les contacts par dé
           // Afficher le message de succès
           const message = result.message || 'Modifications enregistrées! Le site sera redéployé dans 2-3 minutes.';
           console.log('✅ Succès:', message);
+
+          // Renouveler la session
+          createSession();
+          updateSessionTimer();
 
           // Afficher une alerte de confirmation
           alert('✅ Succès!\n\n' + message);
