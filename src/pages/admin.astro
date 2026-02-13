@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getAllDepartements } from '../utils/departement-contact';
+import { getAllDepartements, getDefaultContact } from '../utils/departement-contact';
+import departementsConfigRaw from '../data/departements-config.json';
 
 const departements = getAllDepartements();
+const defaultContact = getDefaultContact();
 
 const title = "Administration - Eric Plomberie";
 const description = "Interface d'administration pour gérer les contacts par département";
@@ -47,68 +49,126 @@ const description = "Interface d'administration pour gérer les contacts par dé
           <h2 class="text-2xl font-bold mb-6">Gestion des contacts par département</h2>
 
           <div id="success-message" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
-            Configuration téléchargée avec succès !
+            Modifications enregistrées ! Le site sera redéployé dans 2-3 minutes.
           </div>
 
           <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
             <p class="text-sm text-blue-800">
-              <strong>⚠️ Important :</strong> Après avoir téléchargé le fichier JSON :
+              <strong>💡 Astuce :</strong> Définissez un numéro et email par défaut ci-dessous. Vous pourrez ensuite les surcharger département par département si nécessaire.
             </p>
-            <ol class="list-decimal list-inside text-sm text-blue-800 mt-2 space-y-1">
-              <li>Remplacez le fichier <code class="bg-blue-100 px-1 rounded">src/data/departements-config.json</code></li>
-              <li>Committez et déployez le site sur Vercel</li>
-              <li>Les changements seront appliqués</li>
-            </ol>
           </div>
 
           <form id="config-form" class="space-y-6">
-            <div class="grid grid-cols-1 gap-6">
-              {departements.map((dept) => (
-                <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition">
-                  <h3 class="text-lg font-bold text-gray-900 mb-4">
-                    {dept.code} - {dept.name}
-                  </h3>
+            <!-- SECTION PAR DÉFAUT -->
+            <div class="border-2 border-primary-500 rounded-lg p-6 bg-primary-50">
+              <h3 class="text-xl font-bold text-primary-900 mb-4 flex items-center gap-2">
+                <span>⭐</span> Contact par Défaut (tous les départements)
+              </h3>
 
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label
-                        for={`phone-${dept.code}`}
-                        class="block text-sm font-medium text-gray-700 mb-2"
-                      >
-                        Numéro de téléphone
-                      </label>
-                      <input
-                        type="text"
-                        id={`phone-${dept.code}`}
-                        data-dept={dept.code}
-                        data-field="phone"
-                        value={dept.phoneDisplay}
-                        class="phone-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                        placeholder="07.56.97.44.93"
-                      />
-                      <p class="text-xs text-gray-500 mt-1">Format : 07.56.97.44.93</p>
-                    </div>
-
-                    <div>
-                      <label
-                        for={`email-${dept.code}`}
-                        class="block text-sm font-medium text-gray-700 mb-2"
-                      >
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id={`email-${dept.code}`}
-                        data-dept={dept.code}
-                        data-field="email"
-                        value={dept.email}
-                        class="email-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                        placeholder="contact@eric-plomberie.fr"
-                      />
-                    </div>
-                  </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    for="default-phone"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Numéro de téléphone par défaut
+                  </label>
+                  <input
+                    type="text"
+                    id="default-phone"
+                    value={defaultContact.phoneDisplay}
+                    class="phone-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-semibold"
+                    placeholder="07.56.97.44.93"
+                  />
+                  <p class="text-xs text-gray-500 mt-1">Format : 07.56.97.44.93</p>
                 </div>
-              ))}
+
+                <div>
+                  <label
+                    for="default-email"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Email par défaut
+                  </label>
+                  <input
+                    type="email"
+                    id="default-email"
+                    value={defaultContact.email}
+                    class="email-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-semibold"
+                    placeholder="contact@eric-plomberie.fr"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- DÉPARTEMENTS -->
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-4">Surcharges par département (optionnel)</h3>
+              <p class="text-sm text-gray-600 mb-4">
+                Laissez vide pour utiliser les valeurs par défaut ci-dessus. Ne remplissez que si vous souhaitez un numéro ou email différent pour un département spécifique.
+              </p>
+
+              <div class="grid grid-cols-1 gap-6">
+                {departements.map((dept) => {
+                  const deptConfig = departementsConfigRaw[dept.code as keyof typeof departementsConfigRaw];
+                  const hasPhoneOverride = deptConfig && 'phoneDisplay' in deptConfig;
+                  const hasEmailOverride = deptConfig && 'email' in deptConfig;
+
+                  return (
+                    <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition">
+                      <h3 class="text-lg font-bold text-gray-900 mb-4">
+                        {dept.code} - {dept.name}
+                        {(hasPhoneOverride || hasEmailOverride) && (
+                          <span class="ml-2 text-xs font-normal text-orange-600 bg-orange-100 px-2 py-1 rounded">
+                            Personnalisé
+                          </span>
+                        )}
+                      </h3>
+
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label
+                            for={`phone-${dept.code}`}
+                            class="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Numéro de téléphone
+                          </label>
+                          <input
+                            type="text"
+                            id={`phone-${dept.code}`}
+                            data-dept={dept.code}
+                            data-field="phone"
+                            value={hasPhoneOverride && 'phoneDisplay' in deptConfig ? deptConfig.phoneDisplay : ''}
+                            class="phone-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                            placeholder={`Par défaut : ${defaultContact.phoneDisplay}`}
+                          />
+                          <p class="text-xs text-gray-500 mt-1">Laissez vide pour utiliser le numéro par défaut</p>
+                        </div>
+
+                        <div>
+                          <label
+                            for={`email-${dept.code}`}
+                            class="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Email
+                          </label>
+                          <input
+                            type="email"
+                            id={`email-${dept.code}`}
+                            data-dept={dept.code}
+                            data-field="email"
+                            value={hasEmailOverride && 'email' in deptConfig ? deptConfig.email : ''}
+                            class="email-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                            placeholder={`Par défaut : ${defaultContact.email}`}
+                          />
+                          <p class="text-xs text-gray-500 mt-1">Laissez vide pour utiliser l'email par défaut</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
             </div>
 
             <div class="flex gap-4 pt-6 border-t border-gray-200">
@@ -133,7 +193,7 @@ const description = "Interface d'administration pour gérer les contacts par dé
     </div>
   </div>
 
-  <script define:vars={{ departements }}>
+  <script define:vars={{ departements, defaultContact }}>
     const PASSWORD = 'artisanplombier';
 
     // Authentification
@@ -171,21 +231,45 @@ const description = "Interface d'administration pour gérer les contacts par dé
 
       const config = {};
 
-      // Récupérer toutes les valeurs des inputs
+      // Récupérer les valeurs par défaut
+      const defaultPhoneInput = document.getElementById('default-phone');
+      const defaultEmailInput = document.getElementById('default-email');
+
+      const defaultPhoneDisplay = defaultPhoneInput.value;
+      const defaultPhoneClean = defaultPhoneDisplay.replace(/\s/g, '').replace(/\./g, '');
+
+      config['default'] = {
+        phone: defaultPhoneClean,
+        phoneDisplay: defaultPhoneDisplay,
+        email: defaultEmailInput.value
+      };
+
+      // Récupérer les surcharges par département
       departements.forEach(dept => {
         const phoneInput = document.getElementById(`phone-${dept.code}`);
         const emailInput = document.getElementById(`email-${dept.code}`);
 
         if (phoneInput && emailInput) {
-          const phoneDisplay = phoneInput.value;
-          const phoneClean = phoneDisplay.replace(/\s/g, '').replace(/\./g, '');
+          const phoneDisplay = phoneInput.value.trim();
+          const email = emailInput.value.trim();
 
-          config[dept.code] = {
-            name: dept.name,
-            phone: phoneClean,
-            phoneDisplay: phoneDisplay,
-            email: emailInput.value
+          // Créer la config du département (toujours avec le nom)
+          const deptConfig = {
+            name: dept.name
           };
+
+          // N'ajouter phone/email que s'ils diffèrent du défaut
+          if (phoneDisplay && phoneDisplay !== defaultPhoneDisplay) {
+            const phoneClean = phoneDisplay.replace(/\s/g, '').replace(/\./g, '');
+            deptConfig.phone = phoneClean;
+            deptConfig.phoneDisplay = phoneDisplay;
+          }
+
+          if (email && email !== defaultEmailInput.value) {
+            deptConfig.email = email;
+          }
+
+          config[dept.code] = deptConfig;
         }
       });
 
