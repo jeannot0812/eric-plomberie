@@ -243,6 +243,8 @@ const description = "Interface d'administration pour gérer les contacts par dé
 
     // Valider les modifications
     document.getElementById('validate-btn')?.addEventListener('click', async () => {
+      console.log('🔵 Bouton Valider cliqué');
+
       const validateBtn = document.getElementById('validate-btn');
       const successMessage = document.getElementById('success-message');
       const errorMessage = document.getElementById('error-message');
@@ -266,6 +268,8 @@ const description = "Interface d'administration pour gérer les contacts par dé
         email: defaultEmailInput.value
       };
 
+      console.log('📝 Valeurs par défaut:', config['default']);
+
       // Récupérer les surcharges par département
       departements.forEach(dept => {
         const phoneInput = document.getElementById(`phone-${dept.code}`);
@@ -285,17 +289,23 @@ const description = "Interface d'administration pour gérer les contacts par dé
             const phoneClean = phoneDisplay.replace(/\s/g, '').replace(/\./g, '');
             deptConfig.phone = phoneClean;
             deptConfig.phoneDisplay = phoneDisplay;
+            console.log(`📞 Surcharge téléphone pour ${dept.code}:`, phoneDisplay);
           }
 
           if (email && email !== defaultEmailInput.value) {
             deptConfig.email = email;
+            console.log(`📧 Surcharge email pour ${dept.code}:`, email);
           }
 
           config[dept.code] = deptConfig;
         }
       });
 
+      console.log('📦 Configuration complète:', config);
+
       try {
+        console.log('🚀 Envoi de la requête API...');
+
         // Appeler l'API pour enregistrer les modifications
         const response = await fetch('/api/update-contacts', {
           method: 'POST',
@@ -308,40 +318,58 @@ const description = "Interface d'administration pour gérer les contacts par dé
           })
         });
 
+        console.log('📡 Réponse API reçue, status:', response.status);
+
         const result = await response.json();
+        console.log('📄 Résultat:', result);
 
         if (response.ok) {
           // Afficher le message de succès
+          const message = result.message || 'Modifications enregistrées! Le site sera redéployé dans 2-3 minutes.';
+          console.log('✅ Succès:', message);
+
+          // Afficher une alerte de confirmation
+          alert('✅ Succès!\n\n' + message);
+
           if (successMessage) {
-            successMessage.textContent = result.message || 'Modifications enregistrées! Le site sera redéployé dans 2-3 minutes.';
+            successMessage.textContent = message;
             successMessage.classList.remove('hidden');
+            // Garder le message visible plus longtemps
             setTimeout(() => {
               successMessage.classList.add('hidden');
-            }, 10000);
+            }, 15000);
           }
         } else {
           // Afficher le message d'erreur
+          const errMsg = result.error || 'Erreur lors de l\'enregistrement';
+          console.error('❌ Erreur:', errMsg);
+
+          // Afficher une alerte d'erreur
+          alert('❌ Erreur!\n\n' + errMsg + '\n\nVérifiez la console pour plus de détails.');
+
           if (errorMessage) {
-            errorMessage.textContent = result.error || 'Erreur lors de l\'enregistrement';
+            errorMessage.textContent = errMsg;
             errorMessage.classList.remove('hidden');
-            setTimeout(() => {
-              errorMessage.classList.add('hidden');
-            }, 5000);
+            // Ne pas masquer automatiquement les erreurs
           }
         }
       } catch (error) {
         // Erreur réseau
+        console.error('💥 Erreur de connexion:', error);
+
+        const errMsg = 'Erreur de connexion: ' + error.message;
+        alert('❌ Erreur de connexion!\n\n' + errMsg + '\n\nVérifiez votre connexion internet et la console.');
+
         if (errorMessage) {
-          errorMessage.textContent = 'Erreur de connexion. Vérifiez votre connexion internet.';
+          errorMessage.textContent = errMsg;
           errorMessage.classList.remove('hidden');
-          setTimeout(() => {
-            errorMessage.classList.add('hidden');
-          }, 5000);
+          // Ne pas masquer automatiquement les erreurs
         }
       } finally {
         // Réactiver le bouton
         validateBtn.disabled = false;
         validateBtn.textContent = '✅ Valider les Modifications';
+        console.log('🏁 Validation terminée');
       }
     });
   </script>
