@@ -52,12 +52,6 @@ const description = "Interface d'administration pour gérer les contacts par dé
             Modifications enregistrées ! Le site sera redéployé dans 2-3 minutes.
           </div>
 
-          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <p class="text-sm text-blue-800">
-              <strong>💡 Astuce :</strong> Définissez un numéro et email par défaut ci-dessous. Vous pourrez ensuite les surcharger département par département si nécessaire.
-            </p>
-          </div>
-
           <form id="config-form" class="space-y-6">
             <!-- SECTION PAR DÉFAUT -->
             <div class="border-2 border-primary-500 rounded-lg p-6 bg-primary-50">
@@ -103,12 +97,25 @@ const description = "Interface d'administration pour gérer les contacts par dé
 
             <!-- DÉPARTEMENTS -->
             <div>
-              <h3 class="text-xl font-bold text-gray-900 mb-4">Surcharges par département (optionnel)</h3>
-              <p class="text-sm text-gray-600 mb-4">
-                Laissez vide pour utiliser les valeurs par défaut ci-dessus. Ne remplissez que si vous souhaitez un numéro ou email différent pour un département spécifique.
-              </p>
+              <div class="flex items-center justify-between mb-6">
+                <div>
+                  <h3 class="text-xl font-bold text-gray-900">Surcharges par département (optionnel)</h3>
+                  <p class="text-sm text-gray-600 mt-1">
+                    Laissez vide pour utiliser les valeurs par défaut ci-dessus.
+                  </p>
+                </div>
 
-              <div class="grid grid-cols-1 gap-6">
+                <div class="w-80">
+                  <input
+                    type="text"
+                    id="dept-search"
+                    placeholder="🔍 Rechercher un département..."
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  />
+                </div>
+              </div>
+
+              <div id="dept-list" class="grid grid-cols-1 gap-6">
                 {departements.map((dept) => {
                   const deptConfig = departementsConfigRaw[dept.code as keyof typeof departementsConfigRaw];
                   const hasPhoneOverride = deptConfig && 'phoneDisplay' in deptConfig;
@@ -217,6 +224,21 @@ const description = "Interface d'administration pour gérer les contacts par dé
       if (e.key === 'Enter') {
         document.getElementById('login-btn')?.click();
       }
+    });
+
+    // Recherche de départements
+    document.getElementById('dept-search')?.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const deptCards = document.querySelectorAll('#dept-list > div');
+
+      deptCards.forEach(card => {
+        const deptText = card.textContent.toLowerCase();
+        if (deptText.includes(searchTerm)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     });
 
     // Valider les modifications
