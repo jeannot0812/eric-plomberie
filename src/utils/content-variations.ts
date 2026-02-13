@@ -22,6 +22,12 @@ interface Commune {
   type: 'urban' | 'suburban' | 'rural';
 }
 
+interface DepartementContact {
+  phone: string;
+  phoneDisplay: string;
+  email: string;
+}
+
 /**
  * Génère un titre H1 unique basé sur la population
  */
@@ -38,15 +44,15 @@ export function getHeroTitle(commune: Commune): string {
 /**
  * Génère une meta description unique
  */
-export function getMetaDescription(commune: Commune): string {
+export function getMetaDescription(commune: Commune, contact: DepartementContact): string {
   const postalCode = commune.postalCodes[0] || '';
-  return `Artisan plombier basé à ${commune.name} (${postalCode}). Intervention locale et rapide dans votre commune. Ouvert 7h30-18h, urgence 24/7. Devis gratuit ☎️ 07.56.97.44.93`;
+  return `Artisan plombier basé à ${commune.name} (${postalCode}). Intervention locale et rapide dans votre commune. Ouvert 7h30-18h, urgence 24/7. Devis gratuit ☎️ ${contact.phoneDisplay}`;
 }
 
 /**
  * Génère un titre de page complet
  */
-export function getPageTitle(commune: Commune): string {
+export function getPageTitle(commune: Commune, contact?: DepartementContact): string {
   const postalCode = commune.postalCodes[0] || '';
   return `Plombier ${commune.name} (${postalCode}) - Dépannage Urgence 24/7 | RDP`;
 }

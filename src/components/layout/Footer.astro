@@ -1,4 +1,15 @@
 ---
+import { getContactByDepartement } from '../../utils/departement-contact';
+
+interface Props {
+  contact?: {
+    phone: string;
+    phoneDisplay: string;
+    email: string;
+  };
+}
+
+const { contact = getContactByDepartement('75') } = Astro.props;
 const currentYear = new Date().getFullYear();
 ---
 
@@ -61,11 +72,11 @@ const currentYear = new Date().getFullYear();
         <ul class="space-y-3 text-sm text-gray-300">
           <li class="flex items-start gap-3">
             <span class="text-primary-400 font-black">TEL</span>
-            <a href="tel:0756974493" class="font-bold text-white hover:text-primary-400 transition-colors">07.56.97.44.93</a>
+            <a href={`tel:${contact.phone}`} class="font-bold text-white hover:text-primary-400 transition-colors">{contact.phoneDisplay}</a>
           </li>
           <li class="flex items-start gap-3">
             <span class="text-primary-400 font-black">EMAIL</span>
-            <a href="mailto:contact@eric-plomberie.fr" class="font-medium hover:text-white transition-colors">contact@eric-plomberie.fr</a>
+            <a href={`mailto:${contact.email}`} class="font-medium hover:text-white transition-colors">{contact.email}</a>
           </li>
           <li class="flex items-start gap-3">
             <span class="text-primary-400 font-black">ZONE</span>

@@ -1,0 +1,50 @@
+{
+  "75": {
+    "name": "Paris",
+    "phone": "0756974493",
+    "phoneDisplay": "07.56.97.44.93",
+    "email": "contact@eric-plomberie.fr"
+  },
+  "77": {
+    "name": "Seine-et-Marne",
+    "phone": "0756974493",
+    "phoneDisplay": "07.56.97.44.93",
+    "email": "contact@eric-plomberie.fr"
+  },
+  "78": {
+    "name": "Yvelines",
+    "phone": "0756974493",
+    "phoneDisplay": "07.56.97.44.93",
+    "email": "contact@eric-plomberie.fr"
+  },
+  "91": {
+    "name": "Essonne",
+    "phone": "0756974493",
+    "phoneDisplay": "07.56.97.44.93",
+    "email": "contact@eric-plomberie.fr"
+  },
+  "92": {
+    "name": "Hauts-de-Seine",
+    "phone": "0756974493",
+    "phoneDisplay": "07.56.97.44.93",
+    "email": "contact@eric-plomberie.fr"
+  },
+  "93": {
+    "name": "Seine-Saint-Denis",
+    "phone": "0756974493",
+    "phoneDisplay": "07.56.97.44.93",
+    "email": "contact@eric-plomberie.fr"
+  },
+  "94": {
+    "name": "Val-de-Marne",
+    "phone": "0756974493",
+    "phoneDisplay": "07.56.97.44.93",
+    "email": "contact@eric-plomberie.fr"
+  },
+  "95": {
+    "name": "Val-d'Oise",
+    "phone": "0756974493",
+    "phoneDisplay": "07.56.97.44.93",
+    "email": "contact@eric-plomberie.fr"
+  }
+}

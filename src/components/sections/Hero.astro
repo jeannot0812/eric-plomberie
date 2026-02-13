@@ -1,11 +1,17 @@
 ---
 import Button from '../ui/Button.astro';
+import { getContactByDepartement } from '../../utils/departement-contact';
 
 interface Props {
   commune: any;
+  contact?: {
+    phone: string;
+    phoneDisplay: string;
+    email: string;
+  };
 }
 
-const { commune } = Astro.props;
+const { commune, contact = getContactByDepartement('75') } = Astro.props;
 
 // Titre dynamique basé sur la population
 function getHeroTitle(commune: any): string {
@@ -51,7 +57,7 @@ const title = getHeroTitle(commune);
         <!-- Boutons CTA -->
         <div class="flex flex-col sm:flex-row gap-4 mb-8">
           <a
-            href="tel:0756974493"
+            href={`tel:${contact.phone}`}
             class="inline-flex items-center justify-center gap-3 bg-primary-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-primary-700 transition-all shadow-lg hover:shadow-xl"
           >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

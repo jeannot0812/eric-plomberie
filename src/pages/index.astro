@@ -5,9 +5,13 @@ import Footer from '../components/layout/Footer.astro';
 import Services from '../components/sections/Services.astro';
 import Button from '../components/ui/Button.astro';
 import communesData from '../data/communes.json';
+import { getContactByDepartement } from '../utils/departement-contact';
 
 const title = 'Plombier Île-de-France - Dépannage 24/7 | Réparation de Plomberie';
 const description = 'Plombier professionnel en Île-de-France. Intervention rapide en 30min dans 1266 communes. Dépannage urgence 24/7, fuite d\'eau, débouchage. Devis gratuit.';
+
+// Contact par défaut (Paris)
+const contact = getContactByDepartement('75');
 
 // Communes principales à mettre en avant
 const featuredCommunes = communesData.communes
@@ -17,7 +21,7 @@ const featuredCommunes = communesData.communes
 ---
 
 <BaseLayout title={title} description={description}>
-  <Header />
+  <Header contact={contact} />
 
   <!-- Hero Homepage -->
   <section class="relative bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20 md:py-32">
@@ -33,7 +37,7 @@ const featuredCommunes = communesData.communes
       </p>
 
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <Button variant="emergency" size="lg" href="tel:01XXXXXXXX">
+        <Button variant="emergency" size="lg" href={`tel:${contact.phone}`}>
           📞 Urgence 24/7
         </Button>
         <Button variant="secondary" size="lg" href="#communes" class="bg-white text-primary-600 hover:bg-gray-100">
@@ -59,7 +63,7 @@ const featuredCommunes = communesData.communes
   </section>
 
   <!-- Services -->
-  <Services />
+  <Services contact={contact} />
 
   <!-- Communes Principales -->
   <section id="communes" class="py-16 bg-white">
@@ -99,11 +103,11 @@ const featuredCommunes = communesData.communes
       <p class="text-xl mb-8 text-primary-100">
         Disponibles 24h/24, 7j/7 pour toutes vos urgences de plomberie
       </p>
-      <Button variant="emergency" size="lg" href="tel:01XXXXXXXX">
-        📞 01 XX XX XX XX
+      <Button variant="emergency" size="lg" href={`tel:${contact.phone}`}>
+        📞 {contact.phoneDisplay}
       </Button>
     </div>
   </section>
 
-  <Footer />
+  <Footer contact={contact} />
 </BaseLayout>

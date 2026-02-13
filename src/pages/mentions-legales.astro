@@ -2,13 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import { getContactByDepartement } from '../utils/departement-contact';
 
 const title = "Mentions Légales - Eric Plomberie";
 const description = "Mentions légales du site Eric Plomberie - Informations légales et conditions d'utilisation";
+
+// Contact par défaut (Paris)
+const contact = getContactByDepartement('75');
 ---
 
 <BaseLayout title={title} description={description}>
-  <Header />
+  <Header contact={contact} />
 
   <main class="py-16 bg-white">
     <div class="container mx-auto px-4 max-w-4xl">
@@ -25,8 +29,8 @@ const description = "Mentions légales du site Eric Plomberie - Informations lé
             <p class="mb-2"><strong>Raison sociale :</strong> Eric Plomberie</p>
             <p class="mb-2"><strong>Forme juridique :</strong> Entreprise individuelle</p>
             <p class="mb-2"><strong>Siège social :</strong> Île-de-France, France</p>
-            <p class="mb-2"><strong>Téléphone :</strong> 07.56.97.44.93</p>
-            <p class="mb-2"><strong>Email :</strong> contact@eric-plomberie.fr</p>
+            <p class="mb-2"><strong>Téléphone :</strong> {contact.phoneDisplay}</p>
+            <p class="mb-2"><strong>Email :</strong> {contact.email}</p>
             <p class="mb-2"><strong>Responsable de publication :</strong> Éric</p>
             <p class="mb-2"><strong>Assurance Responsabilité Civile Professionnelle :</strong> Assuré</p>
             <p class="mb-2"><strong>Garantie décennale :</strong> Assuré</p>
@@ -63,7 +67,7 @@ const description = "Mentions légales du site Eric Plomberie - Informations lé
 
           <h3 class="text-xl font-bold text-gray-900 mb-3 mt-6">4.1 Responsable du traitement</h3>
           <p class="text-gray-700 mb-4">
-            Le responsable du traitement des données personnelles est Eric Plomberie, joignable à l'adresse : contact@eric-plomberie.fr
+            Le responsable du traitement des données personnelles est Eric Plomberie, joignable à l'adresse : {contact.email}
           </p>
 
           <h3 class="text-xl font-bold text-gray-900 mb-3 mt-6">4.2 Données collectées</h3>
@@ -103,7 +107,7 @@ const description = "Mentions légales du site Eric Plomberie - Informations lé
             <li><strong>Droit à la portabilité :</strong> vous pouvez recevoir vos données dans un format structuré</li>
           </ul>
           <p class="text-gray-700 mb-4">
-            Pour exercer ces droits, vous pouvez nous contacter par email à : <a href="mailto:contact@eric-plomberie.fr" class="text-primary-600 hover:underline">contact@eric-plomberie.fr</a>
+            Pour exercer ces droits, vous pouvez nous contacter par email à : <a href={`mailto:${contact.email}`} class="text-primary-600 hover:underline">{contact.email}</a>
           </p>
           <p class="text-gray-700">
             Vous disposez également du droit d'introduire une réclamation auprès de la CNIL : <a href="https://www.cnil.fr" class="text-primary-600 hover:underline" target="_blank">www.cnil.fr</a>
@@ -196,8 +200,8 @@ const description = "Mentions légales du site Eric Plomberie - Informations lé
             Pour toute question concernant les présentes mentions légales ou pour exercer vos droits, vous pouvez nous contacter :
           </p>
           <ul class="list-none text-gray-700 space-y-2">
-            <li><strong>Par téléphone :</strong> <a href="tel:0756974493" class="text-primary-600 hover:underline">07.56.97.44.93</a></li>
-            <li><strong>Par email :</strong> <a href="mailto:contact@eric-plomberie.fr" class="text-primary-600 hover:underline">contact@eric-plomberie.fr</a></li>
+            <li><strong>Par téléphone :</strong> <a href={`tel:${contact.phone}`} class="text-primary-600 hover:underline">{contact.phoneDisplay}</a></li>
+            <li><strong>Par email :</strong> <a href={`mailto:${contact.email}`} class="text-primary-600 hover:underline">{contact.email}</a></li>
           </ul>
         </section>
 
@@ -208,7 +212,7 @@ const description = "Mentions légales du site Eric Plomberie - Informations lé
     </div>
   </main>
 
-  <Footer />
+  <Footer contact={contact} />
 </BaseLayout>
 
 <style>

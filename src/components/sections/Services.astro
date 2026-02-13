@@ -1,6 +1,16 @@
 ---
 import servicesData from '../../data/services.json';
+import { getContactByDepartement } from '../../utils/departement-contact';
 
+interface Props {
+  contact?: {
+    phone: string;
+    phoneDisplay: string;
+    email: string;
+  };
+}
+
+const { contact = getContactByDepartement('75') } = Astro.props;
 const services = servicesData.services.slice(0, 6); // Top 6 services
 ---
 
@@ -52,10 +62,10 @@ const services = servicesData.services.slice(0, 6); // Top 6 services
 
     <div class="text-center mt-12 pt-8 border-t-2 border-gray-300">
       <a
-        href="tel:0756974493"
+        href={`tel:${contact.phone}`}
         class="inline-flex items-center gap-4 bg-primary-600 text-white px-10 py-5 font-black uppercase tracking-wider hover:bg-primary-700 transition-colors border-2 border-primary-700 text-lg rounded-lg"
       >
-        <span>Appelez-nous : 07.56.97.44.93</span>
+        <span>Appelez-nous : {contact.phoneDisplay}</span>
       </a>
     </div>
   </div>
