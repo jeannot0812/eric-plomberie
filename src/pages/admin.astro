@@ -114,10 +114,10 @@ const description = "Interface d'administration pour gérer les contacts par dé
             <div class="flex gap-4 pt-6 border-t border-gray-200">
               <button
                 type="button"
-                id="download-btn"
-                class="bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition"
+                id="validate-btn"
+                class="bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                📥 Télécharger la configuration (JSON)
+                ✅ Valider les Modifications
               </button>
 
               <a
@@ -159,8 +159,16 @@ const description = "Interface d'administration pour gérer les contacts par dé
       }
     });
 
-    // Télécharger la configuration
-    document.getElementById('download-btn')?.addEventListener('click', () => {
+    // Valider les modifications
+    document.getElementById('validate-btn')?.addEventListener('click', async () => {
+      const validateBtn = document.getElementById('validate-btn');
+      const successMessage = document.getElementById('success-message');
+      const errorMessage = document.getElementById('error-message');
+
+      // Désactiver le bouton pendant le traitement
+      validateBtn.disabled = true;
+      validateBtn.textContent = '⏳ Enregistrement en cours...';
+
       const config = {};
 
       // Récupérer toutes les valeurs des inputs
@@ -181,26 +189,54 @@ const description = "Interface d'administration pour gérer les contacts par dé
         }
       });
 
-      // Créer le fichier JSON
-      const jsonStr = JSON.stringify(config, null, 2);
-      const blob = new Blob([jsonStr], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
+      try {
+        // Appeler l'API pour enregistrer les modifications
+        const response = await fetch('/api/update-contacts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            password: PASSWORD,
+            contacts: config
+          })
+        });
 
-      // Télécharger le fichier
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'departements-config.json';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+        const result = await response.json();
 
-      // Afficher le message de succès
-      const successMessage = document.getElementById('success-message');
-      successMessage?.classList.remove('hidden');
-      setTimeout(() => {
-        successMessage?.classList.add('hidden');
-      }, 5000);
+        if (response.ok) {
+          // Afficher le message de succès
+          if (successMessage) {
+            successMessage.textContent = result.message || 'Modifications enregistrées! Le site sera redéployé dans 2-3 minutes.';
+            successMessage.classList.remove('hidden');
+            setTimeout(() => {
+              successMessage.classList.add('hidden');
+            }, 10000);
+          }
+        } else {
+          // Afficher le message d'erreur
+          if (errorMessage) {
+            errorMessage.textContent = result.error || 'Erreur lors de l\'enregistrement';
+            errorMessage.classList.remove('hidden');
+            setTimeout(() => {
+              errorMessage.classList.add('hidden');
+            }, 5000);
+          }
+        }
+      } catch (error) {
+        // Erreur réseau
+        if (errorMessage) {
+          errorMessage.textContent = 'Erreur de connexion. Vérifiez votre connexion internet.';
+          errorMessage.classList.remove('hidden');
+          setTimeout(() => {
+            errorMessage.classList.add('hidden');
+          }, 5000);
+        }
+      } finally {
+        // Réactiver le bouton
+        validateBtn.disabled = false;
+        validateBtn.textContent = '✅ Valider les Modifications';
+      }
     });
   </script>
 </BaseLayout>
