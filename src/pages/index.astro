@@ -1,113 +1,875 @@
 ---
+import '@fontsource-variable/bricolage-grotesque/standard.css';
+import '@fontsource-variable/schibsted-grotesk/index.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
-import Services from '../components/sections/Services.astro';
-import Button from '../components/ui/Button.astro';
 import communesData from '../data/communes.json';
-import { getContactByDepartement } from '../utils/departement-contact';
+import servicesData from '../data/services.json';
+import faqData from '../data/faq.json';
+import { getContactByDepartement, getAllDepartements } from '../utils/departement-contact';
 
-const title = 'Plombier Île-de-France - Dépannage 24/7 | Réparation de Plomberie';
-const description = 'Plombier professionnel en Île-de-France. Intervention rapide en 30min dans 1266 communes. Dépannage urgence 24/7, fuite d\'eau, débouchage. Devis gratuit.';
-
-// Contact par défaut (Paris)
 const contact = getContactByDepartement('75');
+const phoneIntl = `+33${contact.phone.replace(/^0/, '')}`;
+const phoneSpaced = contact.phoneDisplay.replace(/\./g, ' ');
 
-// Communes principales à mettre en avant
-const featuredCommunes = communesData.communes
-  .filter((c: any) => c.population > 50000)
-  .sort((a: any, b: any) => b.population - a.population)
+const communes = communesData.communes as any[];
+const total = communes.length;
+const totalDisplay = total.toLocaleString('fr-FR').replace(/ /g, ' ');
+
+const title = 'Plombier Île-de-France, dépannage 24h/24 | Eric Plomberie';
+const description = `Plombier en Île-de-France, chez vous en 30 minutes. Fuite d'eau, débouchage, chauffe-eau, chaudière : dépannage jour et nuit dans ${total} communes. Devis gratuit.`;
+
+const featuredCommunes = communes
+  .filter((c) => c.population > 50000)
+  .sort((a, b) => b.population - a.population)
   .slice(0, 20);
+
+const departements = getAllDepartements().map((d: any) => ({
+  code: d.code,
+  name: d.name,
+  count: communes.filter((c) => c.department.code === d.code).length
+}));
+
+// Les données sont en « Title Case » : on repasse en casse de phrase
+const sentence = (t: string) => t.charAt(0) + t.slice(1).replace(/\b(?!WC\b)\p{Lu}/gu, (c) => c.toLowerCase());
+const services = servicesData.services.map((s) => ({
+  title: sentence(s.title.replace(' 24/7', '')),
+  description: s.description,
+  features: s.features.map((f, i) => (i === 0 ? f : f.charAt(0).toLowerCase() + f.slice(1))).join(', ')
+}));
+const faq = faqData.faq.general;
+
+// Premiers gestes : ce que le client peut faire avant l'arrivée du plombier
+const situations = [
+  {
+    id: 'fuite',
+    label: "Fuite d'eau",
+    heading: "Fuite d'eau : les bons gestes avant notre arrivée",
+    steps: [
+      "Fermez le robinet d'arrêt général, en général près du compteur d'eau.",
+      "Coupez le courant au tableau si l'eau approche d'une prise ou d'un appareil électrique.",
+      "Épongez, placez un récipient sous la fuite et prenez des photos pour votre assurance."
+    ],
+    cta: 'Appeler pour une fuite'
+  },
+  {
+    id: 'bouchon',
+    label: 'WC ou évier bouché',
+    heading: 'Canalisation bouchée : évitez que ça déborde',
+    steps: [
+      "N'actionnez plus la chasse d'eau et ne faites plus couler l'évier.",
+      "Si le niveau monte, fermez le petit robinet d'arrêt situé près du WC.",
+      "Évitez les déboucheurs chimiques : ils abîment les tuyaux et compliquent l'intervention."
+    ],
+    cta: 'Appeler pour un débouchage'
+  },
+  {
+    id: 'eau-chaude',
+    label: "Plus d'eau chaude",
+    heading: "Plus d'eau chaude : deux vérifications rapides",
+    steps: [
+      "Regardez au tableau électrique si le disjoncteur du chauffe-eau a sauté.",
+      "Vérifiez qu'il n'y a pas d'eau au pied du ballon.",
+      "S'il fuit, fermez son arrivée d'eau froide et coupez son alimentation électrique."
+    ],
+    cta: "Appeler pour l'eau chaude"
+  },
+  {
+    id: 'chaudiere',
+    label: 'Chaudière en panne',
+    heading: 'Chaudière en panne : ce qui nous aide à réparer vite',
+    steps: [
+      "Notez le code d'erreur affiché sur la chaudière.",
+      "Relevez la pression au manomètre : elle doit se situer entre 1 et 1,5 bar à froid.",
+      "Odeur de gaz ? Ouvrez les fenêtres, ne touchez à aucun interrupteur, sortez et appelez Urgence Sécurité Gaz au 0 800 47 33 33."
+    ],
+    cta: 'Appeler pour la chaudière'
+  },
+  {
+    id: 'travaux',
+    label: 'Travaux prévus',
+    heading: 'Salle de bain, installation, mise aux normes',
+    steps: [
+      "Décrivez votre projet par téléphone ou avec le formulaire de devis.",
+      "Nous passons voir les lieux et prendre les mesures.",
+      "Vous recevez un devis gratuit et détaillé, sans engagement."
+    ],
+    cta: 'Appeler pour un projet'
+  }
+];
+
+const etapes = [
+  {
+    title: 'Vous appelez',
+    text: "Un plombier décroche, de jour comme de nuit. Vous décrivez ce qui se passe, il vous indique quoi faire en attendant."
+  },
+  {
+    title: 'On vous annonce le prix',
+    text: "Le devis est gratuit. Vous connaissez le coût avant que le moindre outil sorte de la caisse."
+  },
+  {
+    title: 'On répare',
+    text: "Arrivée en 30 minutes en moyenne pour une urgence. Le chantier est laissé propre."
+  },
+  {
+    title: 'Vous payez après',
+    text: "Le règlement se fait une fois l'intervention terminée : carte bancaire, chèque, virement ou espèces."
+  }
+];
+
+const equipe = [
+  {
+    name: 'Éric',
+    role: 'Artisan plombier, fondateur',
+    img: '/images/team/team-1.jpg',
+    text: "Du dépannage à la rénovation complète. Recherche de fuites et installation de chauffage depuis plus de 10 ans."
+  },
+  {
+    name: 'Michel',
+    role: 'Chauffage et sanitaire, certifié RGE',
+    img: '/images/team/team-2.jpg',
+    text: "Installation et entretien des chaudières et pompes à chaleur."
+  },
+  {
+    name: 'Ferdinand',
+    role: 'Dépannage jour et nuit',
+    img: '/images/team/team-3.jpg',
+    text: "Fuites, débouchages et pannes de chauffage : 12 ans d'interventions d'urgence."
+  }
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Plumber',
+  name: 'Eric Plomberie',
+  url: Astro.site?.toString(),
+  telephone: phoneIntl,
+  email: contact.email,
+  areaServed: { '@type': 'AdministrativeArea', name: 'Île-de-France' }
+};
 ---
 
 <BaseLayout title={title} description={description}>
-  <Header contact={contact} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
 
-  <!-- Hero Homepage -->
-  <section class="relative bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20 md:py-32">
-    <div class="container mx-auto text-center">
-      <h1 class="text-4xl md:text-6xl font-bold mb-6">
-        Plombier Professionnel en Île-de-France
-      </h1>
-      <p class="text-xl md:text-2xl mb-4 text-primary-100">
-        Intervention rapide dans 1 266 communes
-      </p>
-      <p class="text-lg mb-8 text-primary-200">
-        Dépannage 24/7 • Fuite d'eau • Débouchage • Installation
-      </p>
+  <div class="home" data-phone={contact.phone} data-email={contact.email}>
+    <a class="skip" href="#contenu">Aller au contenu</a>
 
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <Button variant="emergency" size="lg" href={`tel:${contact.phone}`}>
-          📞 Urgence 24/7
-        </Button>
-        <Button variant="secondary" size="lg" href="#communes" class="bg-white text-primary-600 hover:bg-gray-100">
-          Trouver ma commune
-        </Button>
-      </div>
+    <header class="top">
+      <a class="brand" href="/" aria-label="Eric Plomberie, accueil">
+        <span class="brand__name">Eric Plomberie</span>
+        <span class="brand__sub">Artisan plombier, Île-de-France</span>
+      </a>
+      <nav class="top__nav" aria-label="Navigation principale">
+        <a href="#services">Services</a>
+        <a href="#communes">Communes</a>
+        <a href="#devis">Devis gratuit</a>
+      </nav>
+      <a class="top__tel" href={`tel:${contact.phone}`}>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+        <span>{phoneSpaced}</span>
+      </a>
+    </header>
 
-      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-          <div class="text-3xl font-bold">24/7</div>
-          <div class="text-sm text-primary-200">Disponibilité</div>
+    <main id="contenu" class="page">
+      <!-- Le tuyau : il court sur toute la page et se remplit au défilement -->
+      <div class="pipe" aria-hidden="true"><i class="pipe__water"></i></div>
+
+      <section class="hero">
+        <div class="hero__text">
+          <h1>Plombier en Île-de-France. Chez vous en 30&nbsp;minutes.</h1>
+          <p class="hero__lead">
+            Fuite, canalisation bouchée, plus d'eau chaude&nbsp;: Éric et son équipe se déplacent
+            jour et nuit dans {totalDisplay}&nbsp;communes. Le devis est gratuit et le prix annoncé
+            avant de commencer.
+          </p>
+          <div class="hero__actions">
+            <a class="call" href={`tel:${contact.phone}`} data-main-call>
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+              <span class="call__body">
+                <span class="call__num">{phoneSpaced}</span>
+                <span class="call__hint">Appel direct, 24h/24 et 7j/7</span>
+              </span>
+            </a>
+            <a class="link" href="#devis">Demander un devis gratuit</a>
+          </div>
         </div>
-        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-          <div class="text-3xl font-bold">30min</div>
-          <div class="text-sm text-primary-200">Intervention</div>
+        <figure class="hero__photo">
+          <img src="/images/plumber-hero.jpg" alt="Éric, artisan plombier, en intervention sous un évier" width="1024" height="1536" fetchpriority="high" />
+        </figure>
+      </section>
+
+      <section class="triage" aria-labelledby="triage-titre">
+        <div class="sec-head">
+          <span class="branch" aria-hidden="true"><i></i></span>
+          <h2 id="triage-titre">Que se passe-t-il chez vous&nbsp;?</h2>
         </div>
-        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-          <div class="text-3xl font-bold">1 266</div>
-          <div class="text-sm text-primary-200">Communes</div>
+        <div class="triage__box">
+          <div class="triage__tabs" role="tablist" aria-label="Votre situation">
+            {situations.map((s, i) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tab-${s.id}`}
+                aria-controls={`panel-${s.id}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                tabindex={i === 0 ? 0 : -1}
+              >{s.label}</button>
+            ))}
+          </div>
+          {situations.map((s, i) => (
+            <div class="triage__panel" role="tabpanel" id={`panel-${s.id}`} aria-labelledby={`tab-${s.id}`} hidden={i !== 0}>
+              <h3>{s.heading}</h3>
+              <ol>
+                {s.steps.map((step) => <li>{step}</li>)}
+              </ol>
+              <a class="call call--compact" href={`tel:${contact.phone}`}>
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+                <span class="call__body">
+                  <span class="call__num">{s.cta}</span>
+                  <span class="call__hint">{phoneSpaced}</span>
+                </span>
+              </a>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="services" class="services" aria-labelledby="services-titre">
+        <div class="sec-head">
+          <span class="branch" aria-hidden="true"><i></i></span>
+          <h2 id="services-titre">Ce que nous réparons et installons</h2>
+        </div>
+        <ul class="services__list">
+          {services.map((s) => (
+            <li>
+              <h3>{s.title}</h3>
+              <p class="services__desc">{s.description}.</p>
+              <p class="services__feat">{s.features}.</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="etapes" aria-labelledby="etapes-titre">
+        <div class="sec-head">
+          <span class="branch" aria-hidden="true"><i></i></span>
+          <h2 id="etapes-titre">Comment se passe une intervention</h2>
+        </div>
+        <ol class="etapes__list">
+          {etapes.map((e) => (
+            <li>
+              <h3>{e.title}</h3>
+              <p>{e.text}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="equipe" aria-labelledby="equipe-titre">
+        <div class="sec-head">
+          <span class="branch" aria-hidden="true"><i></i></span>
+          <h2 id="equipe-titre">Ceux qui sonnent à votre porte</h2>
+        </div>
+        <ul class="equipe__list">
+          {equipe.map((m) => (
+            <li>
+              <img src={m.img} alt={`${m.name}, ${m.role.toLowerCase()}`} width="800" height="1066" loading="lazy" />
+              <h3>{m.name}</h3>
+              <p class="equipe__role">{m.role}</p>
+              <p>{m.text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="communes" class="communes" aria-labelledby="communes-titre">
+        <div class="sec-head">
+          <span class="branch" aria-hidden="true"><i></i></span>
+          <h2 id="communes-titre">Nous intervenons dans votre commune</h2>
+        </div>
+        <div class="communes__grid">
+          <div class="search">
+            <label for="recherche-commune">Nom de la commune ou code postal</label>
+            <div class="search__field">
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+              <input id="recherche-commune" type="search" autocomplete="off" spellcheck="false" placeholder="Versailles, 93100…" aria-describedby="recherche-etat" />
+            </div>
+            <p id="recherche-etat" class="search__status" role="status">
+              {totalDisplay} communes desservies dans les {departements.length} départements.
+            </p>
+            <ul class="search__results" hidden></ul>
+          </div>
+          <dl class="depts">
+            {departements.map((d) => (
+              <div>
+                <dt><span class="depts__code">{d.code}</span> {d.name}</dt>
+                <dd>{d.count} communes</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <ul class="villes">
+          {featuredCommunes.map((c) => (
+            <li><a href={`/communes/${c.slug}`}>{c.name}</a></li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="faq" aria-labelledby="faq-titre">
+        <div class="sec-head">
+          <span class="branch" aria-hidden="true"><i></i></span>
+          <h2 id="faq-titre">Les questions qu'on nous pose au téléphone</h2>
+        </div>
+        <div class="faq__list">
+          {faq.map((q) => (
+            <details>
+              <summary>
+                <span>{q.question}</span>
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              </summary>
+              <p>{q.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section id="devis" class="devis" aria-labelledby="devis-titre">
+        <div class="sec-head">
+          <span class="branch" aria-hidden="true"><i></i></span>
+          <h2 id="devis-titre">Demander un devis gratuit</h2>
+        </div>
+        <div class="devis__grid">
+          <p class="devis__intro">
+            Pas d'urgence&nbsp;? Décrivez votre besoin en trois lignes. Votre message part directement
+            sur le téléphone d'Éric, par SMS ou par e-mail, et nous vous rappelons avec un prix.
+          </p>
+          <form class="form" novalidate>
+            <div class="field">
+              <label for="f-besoin">Votre besoin</label>
+              <textarea id="f-besoin" name="besoin" rows="3" required placeholder="Robinet de cuisine qui goutte, remplacement à prévoir…"></textarea>
+              <p class="field__error" id="f-besoin-err" hidden>Décrivez votre besoin en quelques mots pour que nous puissions chiffrer.</p>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-commune">Commune</label>
+                <input id="f-commune" name="commune" type="text" autocomplete="address-level2" placeholder="Montreuil…" />
+              </div>
+              <div class="field">
+                <label for="f-nom">Votre nom</label>
+                <input id="f-nom" name="nom" type="text" autocomplete="name" placeholder="Camille Durand…" />
+              </div>
+            </div>
+            <div class="form__actions">
+              <button type="submit" class="btn btn--ink" value="sms">Envoyer par SMS</button>
+              <button type="submit" class="btn btn--line" value="mail">Envoyer par e-mail</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="final" aria-labelledby="final-titre">
+        <div class="sec-head">
+          <span class="branch branch--tap" aria-hidden="true"><i></i></span>
+          <svg class="tap" viewBox="0 0 120 150" aria-hidden="true">
+            <path class="tap__body" d="M0 34h58a26 26 0 0 1 26 26v36H62V62a6 6 0 0 0-6-6H0Z"/>
+            <path class="tap__body" d="M56 96h34v10H56Z"/>
+            <path class="tap__body" d="M30 34V16M14 12h32"/>
+            <path class="tap__drop" d="M73 112c5 7 8 11 8 15a8 8 0 0 1-16 0c0-4 3-8 8-15Z"/>
+          </svg>
+          <h2 id="final-titre">L'eau n'attend pas. Nous non plus.</h2>
+        </div>
+        <a class="call call--xl" href={`tel:${contact.phone}`}>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+          <span class="call__body">
+            <span class="call__num">{phoneSpaced}</span>
+            <span class="call__hint">Un plombier décroche, 24h/24 et 7j/7</span>
+          </span>
+        </a>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="foot__grid">
+        <div>
+          <p class="foot__name">Eric Plomberie</p>
+          <p>Artisan plombier de proximité en Île-de-France.</p>
+        </div>
+        <div>
+          <p class="foot__h">Horaires</p>
+          <p>Du lundi au samedi, 7h30 à 18h<br />Urgences 24h/24 et 7j/7</p>
+        </div>
+        <div>
+          <p class="foot__h">Contact</p>
+          <p>
+            <a href={`tel:${contact.phone}`}>{phoneSpaced}</a><br />
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Services -->
-  <Services contact={contact} />
-
-  <!-- Communes Principales -->
-  <section id="communes" class="py-16 bg-white">
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold text-gray-900 mb-4 text-center">
-        Communes Principales
-      </h2>
-      <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-        Intervention dans toutes les communes d'Île-de-France. Cliquez sur votre ville.
+      <p class="foot__legal">
+        © {new Date().getFullYear()} Eric Plomberie
+        <a href="/mentions-legales">Mentions légales</a>
       </p>
-      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
-        {featuredCommunes.map((commune: any) => (
-          <a
-            href={`/communes/${commune.slug}`}
-            class="px-4 py-3 bg-gray-50 hover:bg-primary-50 border border-gray-200 hover:border-primary-300 rounded-lg text-gray-700 hover:text-primary-600 transition text-center"
-          >
-            <div class="font-medium">{commune.name}</div>
-            <div class="text-xs text-gray-500">{commune.postalCodes[0]}</div>
-          </a>
-        ))}
-      </div>
+    </footer>
 
-      <div class="mt-8 text-center">
-        <p class="text-gray-600">
-          + 1 246 autres communes en Île-de-France
-        </p>
-      </div>
+    <div class="callbar" hidden>
+      <a class="callbar__call" href={`tel:${contact.phone}`}>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+        Appeler le {phoneSpaced}
+      </a>
+      <a class="callbar__devis" href="#devis">Devis</a>
     </div>
-  </section>
-
-  <!-- CTA Final -->
-  <section class="py-16 bg-primary-600 text-white">
-    <div class="container mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-4">
-        Une Urgence ? Appelez-nous Maintenant
-      </h2>
-      <p class="text-xl mb-8 text-primary-100">
-        Disponibles 24h/24, 7j/7 pour toutes vos urgences de plomberie
-      </p>
-      <Button variant="emergency" size="lg" href={`tel:${contact.phone}`}>
-        📞 {contact.phoneDisplay}
-      </Button>
-    </div>
-  </section>
-
-  <Footer contact={contact} />
+  </div>
 </BaseLayout>
+
+<style is:global>
+  .home {
+    /* Froid et chaud : le code couleur du robinet */
+    --porcelaine: #f1f4f7;
+    --email: #ffffff;
+    --bleu-travail: #14245a;
+    --eau-froide: #1f63d6;
+    --eau-chaude: #c62d1f;
+    --eau-chaude-fonce: #a52216;
+    --ardoise: #46506a;
+    --joint: #c9d1dc;
+
+    --display: 'Bricolage Grotesque Variable', 'Arial Narrow', sans-serif;
+    --body: 'Schibsted Grotesk Variable', system-ui, sans-serif;
+
+    /* Géométrie du tuyau */
+    --pipe-x: 14px;
+    --pipe-w: 10px;
+    --gut: 42px;
+    --edge: 18px;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+    background: var(--porcelaine);
+    color: var(--bleu-travail);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    overflow-x: clip;
+    padding-bottom: 76px;
+  }
+  @media (min-width: 720px) {
+    .home { --pipe-x: 34px; --pipe-w: 12px; --gut: 96px; --edge: 40px; padding-bottom: 0; }
+  }
+  @media (min-width: 1100px) {
+    .home { --pipe-x: 48px; --gut: 128px; --edge: 64px; }
+  }
+
+  .home ::selection { background: var(--eau-froide); color: #fff; }
+  .home :focus-visible { outline: 3px solid var(--eau-froide); outline-offset: 3px; border-radius: 2px; }
+  .home input, .home textarea { caret-color: var(--eau-chaude); }
+  .home a { text-underline-offset: 0.2em; text-decoration-thickness: 1.5px; }
+  .home h1, .home h2, .home h3 { font-family: var(--display); text-wrap: balance; }
+  .home p { text-wrap: pretty; }
+
+  .home .ico { width: 1.25em; height: 1.25em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .home .skip { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--bleu-travail); color: #fff; padding: 10px 14px; }
+  .home .skip:focus { top: 12px; }
+
+  /* En-tête */
+  .home .top {
+    max-width: 1320px; margin: 0 auto;
+    display: flex; align-items: center; gap: 24px;
+    padding: 14px var(--edge) 14px var(--pipe-x);
+  }
+  .home .brand { display: grid; text-decoration: none; margin-right: auto; }
+  .home .brand__name { font-family: var(--display); font-stretch: 75%; font-weight: 800; font-size: 1.5rem; line-height: 1; letter-spacing: -0.01em; }
+  .home .brand__sub { font-size: 0.8125rem; color: var(--ardoise); }
+  .home .top__nav { display: none; gap: 28px; }
+  .home .top__nav a { text-decoration: none; font-weight: 600; padding: 12px 0; }
+  .home .top__nav a:hover { text-decoration: underline; }
+  .home .top__tel { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 700; font-variant-numeric: tabular-nums; text-decoration: none; white-space: nowrap; }
+  .home .top__tel:hover { color: var(--eau-chaude); }
+  @media (min-width: 860px) { .home .top__nav { display: flex; } }
+  @media (max-width: 420px) { .home .brand__sub { display: none; } }
+
+  /* Page et tuyau */
+  .home .page { position: relative; max-width: 1320px; margin: 0 auto; }
+  .home .page > section { margin-left: var(--gut); margin-right: var(--edge); }
+
+  .home .pipe {
+    position: absolute; z-index: 2; top: 0; height: 100%; left: var(--pipe-x); width: var(--pipe-w);
+    background: var(--email); border: 2px solid var(--bleu-travail); border-top: 0; border-bottom: 0;
+    overflow: hidden;
+  }
+  .home .pipe__water { position: absolute; inset: 0; background: var(--eau-froide); transform-origin: top; transform: scaleY(var(--level, 1)); }
+
+  .home .sec-head { position: relative; }
+  .home .branch {
+    position: absolute; top: 0.62em;
+    left: calc(-1 * (var(--gut) - var(--pipe-x) - var(--pipe-w)));
+    width: calc(var(--gut) - var(--pipe-x) - var(--pipe-w) - 10px);
+    height: var(--pipe-w);
+    background: var(--email); border: 2px solid var(--bleu-travail); border-left: 0;
+    border-radius: 0 3px 3px 0; overflow: hidden;
+    font-size: clamp(1.9rem, 4.6vw, 3.25rem);
+  }
+  .home .branch i { position: absolute; inset: 0; background: var(--eau-froide); transform-origin: left; transform: scaleX(1); transition: transform 0.7s var(--ease); }
+  .home.js .branch:not(.is-wet) i { transform: scaleX(0); }
+
+  .home h2 {
+    font-stretch: 75%; font-weight: 800;
+    font-size: clamp(1.9rem, 4.6vw, 3.25rem); line-height: 1.04; letter-spacing: -0.005em;
+    max-width: 18ch;
+  }
+  .home .page > section { padding-top: clamp(72px, 10vw, 136px); }
+  .home .sec-head { margin-bottom: clamp(28px, 4vw, 48px); }
+
+  /* Hero */
+  .home .page > .hero { padding-top: clamp(28px, 5vw, 64px); display: grid; gap: 32px; }
+  .home h1 {
+    font-stretch: 75%; font-weight: 800;
+    font-size: clamp(2.75rem, 8.4vw, 6rem); line-height: 0.96; letter-spacing: -0.012em;
+    max-width: 11ch;
+  }
+  .home .hero__lead { margin-top: 24px; max-width: 52ch; font-size: clamp(1.0625rem, 1.5vw, 1.25rem); color: var(--ardoise); }
+  .home .hero__actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; }
+  .home .hero__photo { margin: 0; }
+  .home .hero__photo img { width: 100%; height: 100%; max-height: 420px; object-fit: cover; object-position: 50% 22%; border-radius: 4px; }
+  @media (min-width: 900px) {
+    .home .page > .hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: 56px; align-items: stretch; }
+    .home .hero__text { align-self: center; padding-block: 24px; }
+    .home .hero__photo img { max-height: min(74vh, 680px); min-height: 460px; }
+  }
+
+  /* Bouton d'appel : la seule touche de rouge */
+  .home .call {
+    display: inline-flex; align-items: center; gap: 16px;
+    background: var(--eau-chaude); color: #fff; text-decoration: none;
+    padding: 14px 26px 14px 20px; border-radius: 4px;
+    box-shadow: 0 10px 24px -12px rgb(198 45 31 / 0.7);
+    transition: background-color 0.2s, transform 0.2s var(--ease), box-shadow 0.2s;
+  }
+  .home .call:hover { background: var(--eau-chaude-fonce); transform: translateY(-2px); box-shadow: 0 16px 28px -12px rgb(198 45 31 / 0.75); }
+  .home .call:active { transform: translateY(0); }
+  .home .call .ico { width: 28px; height: 28px; }
+  .home .call__body { display: grid; }
+  .home .call__num { font-family: var(--display); font-stretch: 75%; font-weight: 800; font-size: 2rem; line-height: 1.05; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .home .call__hint { font-size: 0.9375rem; color: #ffe9e5; }
+  .home .call--compact .call__num { font-size: 1.375rem; }
+  .home .call--xl { padding: 20px 36px 20px 28px; }
+  .home .call--xl .call__num { font-size: clamp(2.25rem, 7vw, 4rem); }
+  .home .call--xl .ico { width: 40px; height: 40px; }
+  .home .link { font-weight: 700; padding: 12px 0; }
+  .home .link:hover { color: var(--eau-froide); }
+
+  /* Premiers gestes */
+  .home .triage__box { background: var(--email); border: 2px solid var(--bleu-travail); border-radius: 4px; display: grid; }
+  .home .triage__tabs { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px; border-bottom: 2px solid var(--bleu-travail); }
+  .home .triage__tabs button {
+    min-height: 44px; padding: 8px 16px; border: 1.5px solid var(--joint); border-radius: 999px;
+    font-weight: 600; background: var(--email); cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .home .triage__tabs button:hover { border-color: var(--bleu-travail); }
+  .home .triage__tabs button[aria-selected='true'] { background: var(--bleu-travail); border-color: var(--bleu-travail); color: #fff; }
+  .home .triage__panel { padding: clamp(20px, 4vw, 40px); }
+  .home .triage__panel h3 { font-stretch: 75%; font-weight: 700; font-size: clamp(1.375rem, 2.6vw, 1.875rem); line-height: 1.1; max-width: 24ch; }
+  .home .triage__panel ol { margin: 20px 0 28px; display: grid; gap: 12px; counter-reset: geste; max-width: 62ch; }
+  .home .triage__panel li { counter-increment: geste; display: grid; grid-template-columns: 2rem 1fr; }
+  .home .triage__panel li::before { content: counter(geste); font-family: var(--display); font-weight: 800; color: var(--eau-froide); }
+  @media (min-width: 900px) {
+    .home .triage__box { grid-template-columns: 260px 1fr; }
+    .home .triage__tabs { flex-direction: column; flex-wrap: nowrap; border-bottom: 0; border-right: 2px solid var(--bleu-travail); padding: 24px; }
+    .home .triage__tabs button { text-align: left; border-radius: 4px; }
+  }
+
+  /* Services : une liste, pas des cartes */
+  .home .services__list { border-top: 2px solid var(--bleu-travail); }
+  .home .services__list li { display: grid; gap: 6px 40px; padding: 24px 0; border-bottom: 1px solid var(--joint); }
+  .home .services__list h3 { font-stretch: 75%; font-weight: 700; font-size: clamp(1.375rem, 2.4vw, 1.75rem); line-height: 1.1; }
+  .home .services__feat { color: var(--ardoise); font-size: 0.9375rem; }
+  @media (min-width: 900px) {
+    .home .services__list li { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); align-items: baseline; }
+  }
+
+  /* Étapes */
+  .home .etapes__list { display: grid; gap: 32px; counter-reset: etape; }
+  .home .etapes__list li { counter-increment: etape; max-width: 34ch; }
+  .home .etapes__list li::before {
+    content: counter(etape); display: block;
+    font-family: var(--display); font-stretch: 75%; font-weight: 800; font-size: 3.5rem; line-height: 1; color: var(--eau-froide);
+    margin-bottom: 8px;
+  }
+  .home .etapes__list h3 { font-stretch: 75%; font-weight: 700; font-size: 1.5rem; line-height: 1.1; margin-bottom: 8px; }
+  .home .etapes__list p { color: var(--ardoise); }
+  @media (min-width: 640px) { .home .etapes__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) { .home .etapes__list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; } }
+
+  /* Équipe */
+  .home .equipe__list { display: grid; gap: 40px 32px; }
+  .home .equipe__list img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; border-radius: 4px; margin-bottom: 16px; }
+  .home .equipe__list h3 { font-stretch: 75%; font-weight: 800; font-size: 1.75rem; line-height: 1; }
+  .home .equipe__role { font-weight: 700; margin: 4px 0 8px; }
+  .home .equipe__list p:last-child { color: var(--ardoise); max-width: 40ch; }
+  @media (min-width: 640px) {
+    .home .equipe__list { grid-template-columns: 1.35fr 1fr 1fr; align-items: start; }
+    .home .equipe__list img { aspect-ratio: auto; height: clamp(300px, 36vw, 460px); }
+  }
+
+  /* Communes : la section sombre */
+  .home .page > .communes {
+    margin-top: clamp(72px, 10vw, 136px);
+    padding-top: clamp(56px, 8vw, 96px); padding-bottom: clamp(56px, 8vw, 96px);
+    background: var(--bleu-travail); color: #fff;
+    box-shadow: 0 0 0 100vmax var(--bleu-travail); clip-path: inset(0 -100vmax);
+  }
+  .home .communes__grid { display: grid; gap: 40px; }
+  .home .search label { display: block; font-weight: 700; margin-bottom: 10px; }
+  .home .search__field { position: relative; }
+  .home .search__field .ico { position: absolute; left: 16px; top: 50%; translate: 0 -50%; color: var(--bleu-travail); width: 24px; height: 24px; pointer-events: none; }
+  .home .search input {
+    width: 100%; min-height: 64px; padding: 12px 16px 12px 54px;
+    font-size: 1.25rem; color: var(--bleu-travail); background: #fff;
+    border: 2px solid #fff; border-radius: 4px;
+  }
+  .home .search input::placeholder { color: #5f6880; }
+  .home .search input:focus-visible { outline-color: #9cc0ff; }
+  .home .search__status { margin-top: 12px; color: #c8d3ee; }
+  .home .search__results { margin-top: 12px; display: grid; gap: 6px; }
+  .home .search__results a {
+    display: flex; justify-content: space-between; gap: 16px; align-items: baseline;
+    padding: 12px 16px; min-height: 48px; background: rgb(255 255 255 / 0.08); border-radius: 4px;
+    color: #fff; text-decoration: none; font-weight: 700;
+  }
+  .home .search__results a:hover { background: #fff; color: var(--bleu-travail); }
+  .home .search__results a:hover span { color: var(--ardoise); }
+  .home .search__results span { font-weight: 400; color: #c8d3ee; font-variant-numeric: tabular-nums; }
+  .home .depts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; align-content: start; }
+  .home .depts > div { padding: 12px 0; border-top: 1px solid rgb(255 255 255 / 0.22); }
+  .home .depts dt { font-weight: 700; }
+  .home .depts__code { font-family: var(--display); font-weight: 800; color: #9cc0ff; margin-right: 6px; font-variant-numeric: tabular-nums; }
+  .home .depts dd { color: #c8d3ee; font-size: 0.9375rem; }
+  .home .villes { margin-top: 48px; display: flex; flex-wrap: wrap; gap: 4px 24px; }
+  .home .villes a { display: inline-block; padding: 10px 0; color: #fff; }
+  .home .villes a:hover { color: #9cc0ff; }
+  .home .communes :focus-visible { outline-color: #9cc0ff; }
+  @media (min-width: 900px) { .home .communes__grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 72px; } }
+
+  /* Questions */
+  .home .faq__list { border-top: 2px solid var(--bleu-travail); max-width: 860px; }
+  .home .faq details { border-bottom: 1px solid var(--joint); }
+  .home .faq summary { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 20px 0; cursor: pointer; list-style: none; font-family: var(--display); font-stretch: 75%; font-weight: 700; font-size: clamp(1.1875rem, 2vw, 1.4375rem); line-height: 1.2; }
+  .home .faq summary::-webkit-details-marker { display: none; }
+  .home .faq summary .ico { transition: rotate 0.3s var(--ease); color: var(--eau-froide); }
+  .home .faq details[open] summary .ico { rotate: 45deg; }
+  .home .faq summary:hover { color: var(--eau-froide); }
+  .home .faq details p { padding: 0 48px 24px 0; color: var(--ardoise); max-width: 68ch; }
+
+  /* Devis */
+  .home .devis__grid { display: grid; gap: 32px; }
+  .home .devis__intro { max-width: 44ch; font-size: 1.125rem; color: var(--ardoise); }
+  .home .form { display: grid; gap: 20px; max-width: 640px; }
+  .home .field label { display: block; font-weight: 700; margin-bottom: 8px; }
+  .home .field input, .home .field textarea {
+    width: 100%; min-height: 52px; padding: 12px 14px; font-size: 1.0625rem;
+    background: var(--email); border: 2px solid var(--bleu-travail); border-radius: 4px; color: var(--bleu-travail);
+  }
+  .home .field textarea { resize: vertical; }
+  .home .field ::placeholder { color: #667089; }
+  .home .field [aria-invalid='true'] { border-color: var(--eau-chaude); }
+  .home .field__error { margin-top: 8px; color: var(--eau-chaude); font-weight: 600; }
+  .home .field-row { display: grid; gap: 20px; }
+  .home .form__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .home .btn { min-height: 52px; padding: 12px 24px; border-radius: 4px; font-weight: 700; cursor: pointer; border: 2px solid var(--bleu-travail); transition: background-color 0.2s, color 0.2s; }
+  .home .btn--ink { background: var(--bleu-travail); color: #fff; }
+  .home .btn--ink:hover { background: var(--eau-froide); border-color: var(--eau-froide); }
+  .home .btn--line { background: transparent; color: var(--bleu-travail); }
+  .home .btn--line:hover { background: var(--bleu-travail); color: #fff; }
+  @media (min-width: 640px) { .home .field-row { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .home .devis__grid { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 72px; } }
+
+  /* Arrivée : le robinet */
+  .home .page > .final { padding-bottom: clamp(72px, 10vw, 128px); }
+  .home .final .sec-head { padding-top: 184px; margin-bottom: 32px; }
+  .home .final .branch { top: 34px; font-size: 1rem; width: calc(var(--gut) - var(--pipe-x) - var(--pipe-w)); border-radius: 0; }
+  .home .final h2 { max-width: 14ch; font-size: clamp(2.25rem, 6.4vw, 4.75rem); }
+  .home .tap { position: absolute; top: 0; left: -2px; width: 120px; height: 150px; overflow: visible; }
+  .home .tap__body { fill: var(--email); stroke: var(--bleu-travail); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+  .home .tap__drop { fill: var(--eau-froide); opacity: 0; transform-box: fill-box; transform-origin: 50% 0; }
+  .home .final.is-flowing .tap__drop { animation: goutte 2.4s cubic-bezier(0.5, 0, 0.9, 0.4) infinite; }
+  @keyframes goutte {
+    0% { opacity: 0; transform: scale(0.2); }
+    35% { opacity: 1; transform: scale(1); }
+    60% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(30px) scale(0.9); }
+  }
+
+  /* Pied de page */
+  .home .foot { background: var(--email); border-top: 2px solid var(--bleu-travail); padding: 48px var(--edge) 32px var(--gut); }
+  .home .foot__grid { max-width: calc(1320px - var(--gut) - var(--edge)); display: grid; gap: 28px; }
+  .home .foot__name { font-family: var(--display); font-stretch: 75%; font-weight: 800; font-size: 1.5rem; line-height: 1.1; }
+  .home .foot__h { font-weight: 700; margin-bottom: 4px; }
+  .home .foot p { color: var(--ardoise); }
+  .home .foot p.foot__name, .home .foot p.foot__h { color: var(--bleu-travail); }
+  .home .foot a { color: var(--bleu-travail); display: inline-block; padding: 6px 0; }
+  .home .foot__legal { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; font-size: 0.9375rem; }
+  @media (min-width: 720px) { .home .foot__grid { grid-template-columns: 1.4fr 1fr 1fr; gap: 48px; } }
+  @media (min-width: 1320px) { .home .foot { padding-left: calc((100vw - 1320px) / 2 + var(--gut)); } }
+
+  /* Barre d'appel mobile */
+  .home .callbar {
+    position: fixed; z-index: 50; left: 0; right: 0; bottom: 0;
+    display: flex; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: var(--email); border-top: 2px solid var(--bleu-travail);
+    transform: translateY(110%); transition: transform 0.45s var(--ease);
+  }
+  .home .callbar[hidden] { display: none; }
+  .home .callbar.is-on { transform: none; }
+  .home .callbar a { min-height: 52px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 4px; font-weight: 700; text-decoration: none; }
+  .home .callbar__call { flex: 1; background: var(--eau-chaude); color: #fff; font-variant-numeric: tabular-nums; }
+  .home .callbar__devis { padding: 0 18px; border: 2px solid var(--bleu-travail); }
+  @media (min-width: 720px) { .home .callbar { display: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home .branch i, .home .callbar, .home .call, .home .faq summary .ico { transition: none; }
+    .home .final.is-flowing .tap__drop { animation: none; opacity: 1; }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.home');
+  if (root) {
+    root.classList.add('js');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Le tuyau se remplit au défilement */
+    const page = root.querySelector<HTMLElement>('.page')!;
+    const water = root.querySelector<HTMLElement>('.pipe__water')!;
+    const branches = [...root.querySelectorAll<HTMLElement>('.branch')];
+    const final = root.querySelector<HTMLElement>('.final')!;
+    const pipe = root.querySelector<HTMLElement>('.pipe')!;
+    const tapBranch = root.querySelector<HTMLElement>('.branch--tap')!;
+    let queued = false;
+
+    const fill = () => {
+      queued = false;
+      const rect = page.getBoundingClientRect();
+      // Le tuyau s'arrête au robinet ; le niveau rattrape le bas de l'écran en fin de page
+      const end = tapBranch.getBoundingClientRect().bottom - rect.top;
+      pipe.style.height = `${end}px`;
+      const max = document.documentElement.scrollHeight - innerHeight;
+      const progress = max > 0 ? Math.min(1, scrollY / max) : 1;
+      const level = reduced ? end : Math.max(0, Math.min(end, innerHeight * (0.62 + 0.38 * progress ** 3) - rect.top));
+      water.style.setProperty('--level', String(level / end));
+      for (const b of branches) {
+        const y = b.getBoundingClientRect().top - rect.top;
+        const wet = level >= y - 1;
+        b.classList.toggle('is-wet', wet);
+        if (b.classList.contains('branch--tap')) final.classList.toggle('is-flowing', wet);
+      }
+    };
+    const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(fill); } };
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    fill();
+
+    /* Premiers gestes : onglets */
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('.triage [role="tab"]')];
+    const select = (tab: HTMLButtonElement, focus = false) => {
+      for (const t of tabs) {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls')!);
+        if (panel) panel.hidden = !on;
+      }
+      if (focus) tab.focus();
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab));
+      tab.addEventListener('keydown', (e) => {
+        const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+        if (step) { e.preventDefault(); select(tabs[(i + step + tabs.length) % tabs.length], true); }
+        if (e.key === 'Home') { e.preventDefault(); select(tabs[0], true); }
+        if (e.key === 'End') { e.preventDefault(); select(tabs[tabs.length - 1], true); }
+      });
+    });
+
+    /* Recherche de commune */
+    const input = root.querySelector<HTMLInputElement>('#recherche-commune')!;
+    const results = root.querySelector<HTMLUListElement>('.search__results')!;
+    const status = root.querySelector<HTMLElement>('#recherche-etat')!;
+    const idle = status.textContent!;
+    const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[-']/g, ' ').trim();
+    let index: [string, string, string, string][] | null = null;
+    let loading: Promise<void> | null = null;
+
+    const load = () => loading ??= fetch('/communes-index.json')
+      .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then((rows: [string, string, string][]) => { index = rows.map((r) => [...r, norm(r[0])]); })
+      .catch(() => { loading = null; throw new Error('index'); });
+
+    const search = async () => {
+      const q = norm(input.value);
+      if (q.length < 2) { results.hidden = true; results.replaceChildren(); status.textContent = idle; return; }
+      try { await load(); } catch {
+        status.textContent = 'La recherche est indisponible pour le moment. Appelez-nous, nous vous dirons tout de suite si nous venons chez vous.';
+        return;
+      }
+      if (q !== norm(input.value)) return;
+      const digits = /^\d+$/.test(q);
+      const found = index!
+        .filter((r) => (digits ? r[2].split(' ').some((cp) => cp.startsWith(q)) : r[3].includes(q)))
+        .sort((a, b) => Number(b[3].startsWith(q)) - Number(a[3].startsWith(q)) || a[0].localeCompare(b[0], 'fr'))
+        .slice(0, 6);
+      results.replaceChildren(...found.map(([name, slug, cps]) => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `/communes/${slug}`;
+        a.textContent = name;
+        const cp = document.createElement('span');
+        cp.textContent = cps.split(' ')[0];
+        a.append(cp);
+        li.append(a);
+        return li;
+      }));
+      results.hidden = found.length === 0;
+      status.textContent = found.length
+        ? `Oui, nous intervenons ici. Choisissez votre commune.`
+        : `Aucune commune trouvée pour « ${input.value.trim()} ». Vérifiez l'orthographe ou appelez-nous.`;
+    };
+    input.addEventListener('focus', () => { load().catch(() => {}); }, { once: true });
+    input.addEventListener('input', search);
+
+    /* Devis : le message part par SMS ou par e-mail */
+    const form = root.querySelector<HTMLFormElement>('.form')!;
+    const besoin = form.querySelector<HTMLTextAreaElement>('#f-besoin')!;
+    const besoinErr = form.querySelector<HTMLElement>('#f-besoin-err')!;
+    besoin.addEventListener('input', () => {
+      if (besoin.value.trim()) { besoin.removeAttribute('aria-invalid'); besoin.removeAttribute('aria-describedby'); besoinErr.hidden = true; }
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!besoin.value.trim()) {
+        besoin.setAttribute('aria-invalid', 'true');
+        besoin.setAttribute('aria-describedby', 'f-besoin-err');
+        besoinErr.hidden = false;
+        besoin.focus();
+        return;
+      }
+      const data = new FormData(form);
+      const lines = [
+        'Demande de devis',
+        `Besoin : ${String(data.get('besoin')).trim()}`,
+        data.get('commune') ? `Commune : ${data.get('commune')}` : '',
+        data.get('nom') ? `Nom : ${data.get('nom')}` : ''
+      ].filter(Boolean).join('\n');
+      const via = (e.submitter as HTMLButtonElement | null)?.value;
+      location.href = via === 'mail'
+        ? `mailto:${root.dataset.email}?subject=${encodeURIComponent('Demande de devis')}&body=${encodeURIComponent(lines)}`
+        : `sms:${root.dataset.phone}?&body=${encodeURIComponent(lines)}`;
+    });
+
+    /* Barre d'appel mobile : visible dès que le bouton principal sort de l'écran */
+    const bar = root.querySelector<HTMLElement>('.callbar')!;
+    const mainCall = root.querySelector<HTMLElement>('[data-main-call]')!;
+    bar.hidden = false;
+    new IntersectionObserver(([entry]) => bar.classList.toggle('is-on', !entry.isIntersecting)).observe(mainCall);
+  }
+</script>

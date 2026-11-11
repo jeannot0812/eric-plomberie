@@ -49,6 +49,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <meta name="ICBM" content={`${commune.coordinates.lat}, ${commune.coordinates.lng}`} />
     </>
   )}
+  <slot name="head" />
 </head>
 <body class="antialiased">
   <slot />
